@@ -72,25 +72,76 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base styles with black and burgundy color scheme */
+        /* Base styles with black and cream color scheme */
         body {
             background-color: #000000;
-            color: #5d1414;
+            color: #ECDFCC;
         }
+
+        body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+main {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+header {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+    /* Tailwind overrides for full-width */
+@media screen {
+    body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
     
+    header {
+        
+        width: 100% !important;
+     
+    }
+
+   main {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+     
+    }
+    
+    /* This targets the specific header and main content containers */
+    header > div, main > div:not(#galleryGrid):not(#emptyState):not(#loadingState) {
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 0 !important;
+
+    }
+}
         /* Masonry grid with minimal gap */
         .masonry-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-auto-rows: 20px;
-            grid-gap: 1px;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            grid-auto-rows: 25px;
+            grid-gap: 5px;
         }
     
         .masonry-item {
-            grid-row-end: span var(--row-span, 50);
+            grid-row-end: span var(--row-span, 20);
         }
     
-        /* Gallery item styling - optimized for image display */
+        /* Gallery item styling */
         .gallery-item {
             position: relative;
             overflow: hidden;
@@ -99,7 +150,7 @@
                         box-shadow 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
             height: 100%;
             background-color: #000000;
-            box-shadow: inset 0 0 0 1px rgba(93, 20, 20, 0.05);
+            box-shadow: inset 0 0 0 1px rgba(236, 223, 204, 0.05);
         }
     
         .gallery-item img {
@@ -113,9 +164,11 @@
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
             z-index: 10;
+            font-size: larger;
+            cursor: pointer;
         }
     
-        /* Image overlay with burgundy accents */
+        /* Image overlay with information */
         .image-overlay {
             position: absolute;
             bottom: 0;
@@ -137,24 +190,24 @@
             transform: translateY(0);
         }
     
-        /* Custom scrollbar with burgundy accents */
+        /* Custom scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
     
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(93, 20, 20, 0.1);
+            background: rgba(236, 223, 204, 0.1);
             border-radius: 3px;
         }
     
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: rgba(93, 20, 20, 0.4);
+            background-color: rgba(236, 223, 204, 0.4);
             border-radius: 3px;
         }
     
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(93, 20, 20, 0.6);
+            background-color: rgba(236, 223, 204, 0.6);
         }
     
         /* Backdrop blur effect */
@@ -163,25 +216,25 @@
             -webkit-backdrop-filter: blur(12px);
         }
     
-        /* Glass morphism effect with burgundy border */
+        /* Glass morphism effect */
         .glass {
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(93, 20, 20, 0.1);
+            border: 1px solid rgba(236, 223, 204, 0.1);
         }
     
-        /* Upload area animation with burgundy pulsing */
+        /* Upload area animation */
         .pulse-border {
             animation: pulse-border 2s infinite;
         }
     
         @keyframes pulse-border {
             0%, 100% {
-                border-color: rgba(93, 20, 20, 0.3);
+                border-color: rgba(236, 223, 204, 0.3);
             }
             50% {
-                border-color: rgba(93, 20, 20, 0.6);
+                border-color: rgba(236, 223, 204, 0.6);
             }
         }
     
@@ -196,7 +249,7 @@
             transition: width 0.3s ease;
         }
     
-        /* Tooltip with burgundy accents */
+        /* Tooltip */
         .tooltip {
             position: relative;
         }
@@ -208,14 +261,14 @@
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.95);
-            color: #5d1414;
+            color: #ECDFCC;
             padding: 0.3rem 0.6rem;
             border-radius: 0.3rem;
             font-size: 0.75rem;
             white-space: nowrap;
             z-index: 10;
             margin-bottom: 0.5rem;
-            border: 1px solid rgba(93, 20, 20, 0.2);
+            border: 1px solid rgba(236, 223, 204, 0.2);
         }
     
         .tooltip:hover::before {
@@ -230,13 +283,13 @@
             z-index: 10;
         }
     
-        /* 3D Tilt effect - preserved for interactive experience */
+        /* 3D Tilt effect */
         .tilt-card {
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
         }
     
-        /* Gradient background - subtle black variation */
+        /* Gradient background */
         .animated-gradient {
             background: linear-gradient(-45deg, #000000, #0a0a0a, #0a0a0a, #000000);
             background-size: 400% 400%;
@@ -255,7 +308,7 @@
             }
         }
     
-        /* Image shine effect on hover - with burgundy tint */
+        /* Image shine effect on hover */
         .image-shine {
             position: relative;
             overflow: hidden;
@@ -268,7 +321,7 @@
             left: -60%;
             width: 20%;
             height: 200%;
-            background: rgba(93, 20, 20, 0.15);
+            background: rgba(236, 223, 204, 0.15);
             transform: rotate(30deg);
             transition: transform 0.7s ease-in-out;
         }
@@ -276,19 +329,13 @@
         .gallery-item:hover .image-shine::after {
             transform: rotate(30deg) translateX(300%);
         }
+   
     
-        /* Neon text effect with burgundy glow */
-        .neon-text {
-            text-shadow: 0 0 5px rgba(93, 20, 20, 0.7), 
-                         0 0 10px rgba(93, 20, 20, 0.5), 
-                         0 0 15px rgba(93, 20, 20, 0.3);
-        }
-    
-        /* Particle animation for logo with burgundy color */
+        /* Particle animation for logo */
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(93, 20, 20, 0.8);
+            background: rgba(236, 223, 204, 0.8);
             animation: particle-float 3s infinite ease-in-out;
             opacity: 0.6;
         }
@@ -304,13 +351,13 @@
             }
         }
     
-        /* Button styles with burgundy on black for better visibility */
+        /* Button styles */
         .btn-primary, 
         #uploadBtn, 
         #emptyStateUploadBtn, 
         #saveImageBtn {
-            background-color: #5d1414;
-            color: #ffffff;
+            background-color: #000000;
+            color: #5d1414;
             transition: all 0.3s ease;
             border: none;
         }
@@ -319,70 +366,70 @@
         #uploadBtn:hover, 
         #emptyStateUploadBtn:hover, 
         #saveImageBtn:hover {
-            background-color: rgba(93, 20, 20, 0.9);
-            box-shadow: 0 4px 12px rgba(93, 20, 20, 0.3);
+            background-color: rgba(236, 223, 204, 0.9);
+            box-shadow: 0 4px 12px rgba(236, 223, 204, 0.3);
         }
     
-        /* Secondary button style with burgundy accents */
+        /* Secondary button style */
         .btn-secondary,
         #cancelUploadBtn {
             background-color: transparent;
-            border: 1px solid rgba(93, 20, 20, 0.3);
-            color: #5d1414;
+            border: 1px solid rgba(236, 223, 204, 0.3);
+            color: #ECDFCC;
         }
     
         .btn-secondary:hover,
         #cancelUploadBtn:hover {
-            background-color: rgba(93, 20, 20, 0.1);
-            border-color: rgba(93, 20, 20, 0.5);
+            background-color: rgba(236, 223, 204, 0.1);
+            border-color: rgba(236, 223, 204, 0.5);
         }
     
-        /* Form element styles with burgundy accents */
+        /* Form element styles */
         input, textarea, select {
-            background-color: rgba(93, 20, 20, 0.05);
-            border: 1px solid rgba(93, 20, 20, 0.2);
-            color: #5d1414;
+            background-color: rgba(236, 223, 204, 0.1);
+            border: 1px solid rgba(236, 223, 204, 0.2);
+            color: #ECDFCC;
         }
     
         input:focus, textarea:focus, select:focus {
-            border-color: rgba(93, 20, 20, 0.5);
-            box-shadow: 0 0 0 2px rgba(93, 20, 20, 0.1);
+            border-color: rgba(236, 223, 204, 0.5);
+            box-shadow: 0 0 0 2px rgba(236, 223, 204, 0.1);
             outline: none;
         }
     
         /* Header styling */
         header {
             background-color: rgba(0, 0, 0, 0.8);
-            border-bottom: 1px solid rgba(93, 20, 20, 0.1);
+            border-bottom: 1px solid rgba(236, 223, 204, 0.1);
         }
     
         /* Modal styling */
         #modalContent {
             background-color: #000000;
-            border: 1px solid rgba(93, 20, 20, 0.1);
+            border: 1px solid rgba(236, 223, 204, 0.1);
         }
     
         /* Quality option styling */
         .quality-option {
-            color: #5d1414;
+            color: #ECDFCC;
         }
         
         .quality-option.quality-active {
-            background-color: rgba(93, 20, 20, 0.15);
+            background-color: rgba(236, 223, 204, 0.15);
         }
     
-        /* Text color overrides for burgundy */
+        /* Text color overrides */
         .text-white, .text-gray-300, .text-gray-400 {
-            color: #5d1414 !important;
+            color: #ECDFCC !important;
         }
         
         .text-white\/70, .text-white\/60, .text-gray-500 {
-            color: rgba(93, 20, 20, 0.7) !important;
+            color: rgba(236, 223, 204, 0.7) !important;
         }
     
         /* Border colors */
         .border-dark-600, .border-dark-700, .border-gray-700, .border-gray-800 {
-            border-color: rgba(93, 20, 20, 0.1) !important;
+            border-color: rgba(236, 223, 204, 0.1) !important;
         }
     
         /* Background colors */
@@ -392,27 +439,122 @@
     
         /* Gradients */
         .bg-gradient-to-r {
-            background-image: linear-gradient(to right, #5d1414, rgba(93, 20, 20, 0.7)) !important;
+            background-image: linear-gradient(to right, #ECDFCC, rgba(236, 223, 204, 0.7)) !important;
         }
     
-        /* Quality indicators - with burgundy semantic colors */
+        /* Quality indicators - maintain semantic colors but with black/cream base */
         .quality-option[data-quality="high"] .quality-bar {
-            background-color: rgba(93, 20, 20, 0.9) !important;
+            background-color: rgba(236, 223, 204, 0.9) !important;
         }
         
         .quality-option[data-quality="medium"] .quality-bar {
-            background-color: rgba(93, 20, 20, 0.6) !important;
+            background-color: rgba(236, 223, 204, 0.6) !important;
         }
         
         .quality-option[data-quality="low"] .quality-bar {
-            background-color: rgba(93, 20, 20, 0.3) !important;
+            background-color: rgba(236, 223, 204, 0.3) !important;
         }
+
+
+        /* Image Viewer Modal Styles */
+#imageViewerModal {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999 !important; /* Ensure highest z-index */
+}
+
+#imageViewerModal.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+#imageViewerImg {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: zoom-in;
+}
+
+#imageViewerImg.loaded {
+    opacity: 1;
+}
+
+#imageViewerCaption {
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+#imageViewerCaption.visible {
+    transform: translateY(0);
+}
+
+/* Zoom effect for image viewer */
+.zoom-in {
+    cursor: zoom-in !important;
+}
+
+.zoom-out {
+    cursor: zoom-out !important;
+}
+
+/* Navigation buttons hover effect */
+#prevImageBtn:hover, #nextImageBtn:hover {
+    background-color: rgba(236, 223, 204, 0.2);
+}
+
+/* Add image viewer animations */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-fadeInScale {
+    animation: fadeInScale 0.3s ease forwards;
+}
+
+/* Visual indicator for clickable gallery items */
+.gallery-item {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Add magnify icon on hover */
+.gallery-item:hover::after {
+    content: '\f00e';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
     </style>
 </head>
 <body class="bg-dark-900 text-white animated-gradient min-h-screen">
     <!-- Header -->
     <header class="sticky top-0 z-50 backdrop-blur border-b border-accent-purple/20 px-4 sm:px-6 py-3">
-        <div class="flex justify-between items-center max-w-[2000px] mx-auto">
+        <div class="flex justify-between items-center w-full mx-auto">
             <div class="flex items-center gap-3 relative group">
                 <!-- Animated logo particles -->
                 <div class="absolute -inset-2 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
@@ -449,7 +591,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-[2000px] mx-auto px-4 sm:px-6 py-6">
+    <main class="max-w-full mx-auto px-4 sm:px-6 py-6">
         <!-- Gallery Grid -->
         <div id="galleryGrid" class="masonry-grid"></div>
 
@@ -572,855 +714,1070 @@
             </button>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const galleryGrid = document.getElementById('galleryGrid');
-            const emptyState = document.getElementById('emptyState');
-            const loadingState = document.getElementById('loadingState');
-            const uploadBtn = document.getElementById('uploadBtn');
-            const emptyStateUploadBtn = document.getElementById('emptyStateUploadBtn');
-            const uploadModal = document.getElementById('uploadModal');
-            const modalContent = document.getElementById('modalContent');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const cancelUploadBtn = document.getElementById('cancelUploadBtn');
-            const uploadArea = document.getElementById('uploadArea');
-            const fileInput = document.getElementById('fileInput');
-            const uploadPreview = document.getElementById('uploadPreview');
-            const saveImageBtn = document.getElementById('saveImageBtn');
-            const saveButtonText = document.getElementById('saveButtonText');
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-            const closeToast = document.getElementById('closeToast');
-
-            // Database variables
-            const DB_NAME = 'tony_ai_gallery_db';
-            const DB_VERSION = 1;
-            const STORE_NAME = 'images';
-            let db;
-
-            // State
-            let uploadedFile = null;
-            let userImages = [];
-            let currentImageQuality = 'medium'; // default quality
-            let resizeObserver;
-
-            // Initialize the app
-            initializeApp();
-
-            // Set up event listeners
-            setupEventListeners();
-
-            // Functions
-            async function initializeApp() {
-                showLoadingState();
-                
-                // Initialize IndexedDB
-                await initIndexedDB();
-                
-                // Load user images from IndexedDB
-                await loadUserImages();
-                
-                // Hide loading state
-                hideLoadingState();
-                
-                // Check if we need to show empty state
-                checkEmptyState();
-                
-                // Initialize the resize observer for masonry layout
-                initResizeObserver();
-            }
-
-            function setupEventListeners() {
-                // Upload button click
-                uploadBtn.addEventListener('click', openUploadModal);
-                emptyStateUploadBtn.addEventListener('click', openUploadModal);
-                
-                // Close modal
-                closeModalBtn.addEventListener('click', closeUploadModal);
-                cancelUploadBtn.addEventListener('click', closeUploadModal);
-                
-                // Handle file selection
-                uploadArea.addEventListener('click', () => fileInput.click());
-                fileInput.addEventListener('change', handleFileSelect);
-                
-                // Drag and drop
-                uploadArea.addEventListener('dragover', handleDragOver);
-                uploadArea.addEventListener('dragleave', handleDragLeave);
-                uploadArea.addEventListener('drop', handleDrop);
-                
-                // Save image
-                saveImageBtn.addEventListener('click', saveImage);
-                
-                // Remove image functionality
-                galleryGrid.addEventListener('click', function(e) {
-                    const removeBtn = e.target.closest('[data-action="remove"]');
-                    if (removeBtn) {
-                        const galleryItem = removeBtn.closest('.masonry-item');
-                        if (galleryItem) {
-                            const index = parseInt(galleryItem.dataset.index);
-                            removeImage(index);
-                        }
-                    }
-                });
-
-                // Close toast
-                closeToast.addEventListener('click', () => {
-                    toast.classList.add('translate-y-12', 'opacity-0');
-                });
-
-                // Quality options
-                document.addEventListener('click', function(e) {
-                    if (e.target.closest('.quality-option')) {
-                        const option = e.target.closest('.quality-option');
-                        
-                        // Update UI
-                        document.querySelectorAll('.quality-option').forEach(opt => {
-                            opt.classList.remove('bg-dark-700', 'quality-active');
-                        });
-                        option.classList.add('bg-dark-700', 'quality-active');
-                        
-                        // Set quality
-                        currentImageQuality = option.dataset.quality;
-                    }
-                });
-
-                // Add 3D tilt effect to gallery items
-                document.addEventListener('mousemove', handleTiltEffect);
-            }
-
-            async function initIndexedDB() {
-                return new Promise((resolve, reject) => {
-                    const request = indexedDB.open(DB_NAME, DB_VERSION);
-                    
-                    request.onerror = (event) => {
-                        console.error('IndexedDB error:', event.target.error);
-                        showToast('Error accessing browser storage', 'error');
-                        reject(event.target.error);
-                    };
-                    
-                    request.onsuccess = (event) => {
-                        db = event.target.result;
-                        console.log('IndexedDB connected');
-                        resolve();
-                    };
-                    
-                    request.onupgradeneeded = (event) => {
-                        const db = event.target.result;
-                        
-                        // Create an object store for the images
-                        if (!db.objectStoreNames.contains(STORE_NAME)) {
-                            const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-                            store.createIndex('timestamp', 'timestamp', { unique: false });
-                        }
-                    };
-                });
-            }
-
-            async function loadUserImages() {
-                return new Promise((resolve, reject) => {
-                    if (!db) {
-                        console.error('Database not initialized');
-                        resolve([]);
-                        return;
-                    }
-                    
-                    const transaction = db.transaction([STORE_NAME], 'readonly');
-                    const store = transaction.objectStore(STORE_NAME);
-                    const getAllRequest = store.getAll();
-                    
-                    getAllRequest.onsuccess = (event) => {
-                        userImages = event.target.result || [];
-                        // Sort by timestamp, newest first
-                        userImages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                        renderUserImages();
-                        resolve(userImages);
-                    };
-                    
-                    getAllRequest.onerror = (event) => {
-                        console.error('Error loading images:', event.target.error);
-                        showToast('Error loading your images', 'error');
-                        resolve([]);
-                    };
-                });
-            }
-
-            function renderUserImages() {
-                // Clear gallery grid
-                galleryGrid.innerHTML = '';
-                
-                // Render user images if available
-                if (userImages.length > 0) {
-                    userImages.forEach((image, index) => {
-                        // Create a gallery item with proper sizing based on image dimensions
-                        createGalleryItem(image, index).then(galleryItem => {
-                            galleryGrid.appendChild(galleryItem);
-                            
-                            // Add staggered animation class
-                            galleryItem.classList.add('stagger-item');
-                            
-                            // Trigger layout calculation
-                            updateMasonryLayout();
-                        });
-                    });
-                    
-                    // Animate items with staggered delay
-                    setTimeout(() => {
-                        animateGalleryItems();
-                    }, 100);
-                }
-                
-                // Update empty state visibility
-                checkEmptyState();
-            }
-
-            async function createGalleryItem(image, index) {
-    return new Promise((resolve) => {
-        // Create container elements
-        const masonryItem = document.createElement('div');
-        masonryItem.className = 'masonry-item';
-        masonryItem.dataset.index = index;
+<!-- Image Viewer Modal -->
+<div id="imageViewerModal" class="fixed inset-0 bg-dark-900/90 backdrop-blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full h-full flex items-center justify-center p-4">
+        <!-- Close button -->
+        <button id="closeImageViewerBtn" class="absolute top-4 right-4 text-white bg-dark-800/50 hover:bg-dark-700 rounded-full w-10 h-10 flex items-center justify-center z-10 transition-all duration-300">
+            <i class="fas fa-times"></i>
+        </button>
         
-        // Calculate actual aspect ratio from the image
-        const img = new Image();
-        img.onload = function() {
-            const aspectRatio = this.naturalHeight / this.naturalWidth;
+        <!-- Image container with loading indicator -->
+        <div class="relative max-w-[90vw] max-h-[90vh] overflow-hidden">
+            <!-- Loading spinner -->
+            <div id="imageViewerLoading" class="absolute inset-0 flex items-center justify-center bg-dark-900/50 z-10">
+                <svg class="w-12 h-12 text-accent-purple animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
             
-            // Calculate row span based on actual aspect ratio
-            const rowSpan = Math.ceil(aspectRatio * 15);
-            masonryItem.style.setProperty('--row-span', rowSpan);
+            <!-- Actual image -->
+            <img id="imageViewerImg" class="max-w-full max-h-[90vh] object-contain opacity-0 transition-opacity duration-300" src="" alt="Full size image">
             
-            // Create gallery item with proper aspect ratio
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item tilt-card';
-            
-            // Create image element
-            const imgElement = document.createElement('img');
-            imgElement.src = image.dataUrl;
-            imgElement.alt = image.caption;
-            
-            // Create overlay with caption and remove button
-            const overlay = document.createElement('div');
-            overlay.className = 'image-overlay';
-            overlay.innerHTML = `
-                <div class="flex justify-between items-end w-full">
-                    <p class="text-sm text-white font-medium flex-1">${image.caption}</p>
-                    <button class="text-white/80 hover:text-white w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 rounded-full transition-colors" 
-                            data-action="remove" 
-                            data-tooltip="Remove image">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-                <div class="flex items-center gap-2 mt-2 text-xs text-white/60">
+            <!-- Caption -->
+            <div id="imageViewerCaption" class="absolute bottom-0 left-0 right-0 bg-dark-900/80 backdrop-blur-sm p-4 transform translate-y-full transition-transform duration-300">
+                <p class="text-white text-lg font-medium"></p>
+                <div class="flex items-center gap-2 mt-2 text-sm text-white/70">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>${formatDate(image.timestamp)}</span>
-                    ${image.quality ? `
-                        <span class="ml-auto flex items-center gap-1 ${getQualityColor(image.quality)}">
-                            <i class="fas ${getQualityIcon(image.quality)}"></i>
-                            ${capitalizeFirst(image.quality)} quality
-                        </span>
-                    ` : ''}
+                    <span id="imageViewerDate"></span>
+                    <span id="imageViewerQuality" class="ml-auto"></span>
                 </div>
-                <div class="mt-2 text-xs text-white/60 flex items-center gap-2">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                    <span>${Math.round(aspectRatio * 100) / 100} aspect ratio</span>
-                </div>
-            `;
-            
-            // Assemble the gallery item
-            galleryItem.appendChild(imgElement);
-            galleryItem.appendChild(overlay);
-            masonryItem.appendChild(galleryItem);
-            
-            // Add hover effects
-            addHoverEffects(galleryItem);
-            
-            // Update masonry layout
-            updateMasonryLayout();
-            
-            resolve(masonryItem);
-        };
+            </div>
+        </div>
         
-        // Set image source to trigger load event
-        img.src = image.dataUrl;
+        <!-- Navigation buttons -->
+        <button id="prevImageBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-dark-800/50 hover:bg-dark-700 rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300 opacity-0">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="nextImageBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-dark-800/50 hover:bg-dark-700 rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300 opacity-0">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const galleryGrid = document.getElementById('galleryGrid');
+    const emptyState = document.getElementById('emptyState');
+    const loadingState = document.getElementById('loadingState');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const emptyStateUploadBtn = document.getElementById('emptyStateUploadBtn');
+    const uploadModal = document.getElementById('uploadModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const saveImageBtn = document.getElementById('saveImageBtn');
+    const saveButtonText = document.getElementById('saveButtonText');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const toastIcon = document.getElementById('toastIcon');
+    const closeToast = document.getElementById('closeToast');
+
+    // Image Viewer Modal Elements
+    const imageViewerModal = document.getElementById('imageViewerModal');
+    const imageViewerImg = document.getElementById('imageViewerImg');
+    const imageViewerLoading = document.getElementById('imageViewerLoading');
+    const imageViewerCaption = document.getElementById('imageViewerCaption');
+    const imageViewerDate = document.getElementById('imageViewerDate');
+    const imageViewerQuality = document.getElementById('imageViewerQuality');
+    const closeImageViewerBtn = document.getElementById('closeImageViewerBtn');
+    const prevImageBtn = document.getElementById('prevImageBtn');
+    const nextImageBtn = document.getElementById('nextImageBtn');
+
+    // Database variables
+    const DB_NAME = 'tony_ai_gallery_db';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'images';
+    let db;
+
+    // State
+    let uploadedFile = null;
+    let userImages = [];
+    let currentImageQuality = 'medium'; // default quality
+    let resizeObserver;
+    
+    // Image viewer state
+    let currentImageIndex = -1;
+    let isZoomed = false;
+
+    // Initialize the app
+    initializeApp();
+
+    // Set up event listeners
+    setupEventListeners();
+
+    // Functions
+    async function initializeApp() {
+        showLoadingState();
         
-        // Handle load errors
-        img.onerror = function() {
-            console.error('Error loading image for gallery item');
-            
-            // Create a fallback item with default aspect ratio
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item tilt-card bg-dark-800 h-full flex items-center justify-center';
-            galleryItem.innerHTML = `
-                <div class="text-center p-4">
-                    <i class="fas fa-exclamation-circle text-accent-pink text-3xl mb-2"></i>
-                    <p class="text-white/70">Error loading image</p>
-                </div>
-            `;
-            
-            masonryItem.style.setProperty('--row-span', 20);
-            masonryItem.appendChild(galleryItem);
-            
-            resolve(masonryItem);
-        };
-    });
+        // Initialize IndexedDB
+        await initIndexedDB();
+        
+        // Load user images from IndexedDB
+        await loadUserImages();
+        
+        // Hide loading state
+        hideLoadingState();
+        
+        // Check if we need to show empty state
+        checkEmptyState();
+        
+        // Initialize the resize observer for masonry layout
+        initResizeObserver();
+    }
+
+    function setupEventListeners() {
+        // Upload button click
+        uploadBtn.addEventListener('click', openUploadModal);
+        emptyStateUploadBtn.addEventListener('click', openUploadModal);
+        
+        // Close modal
+        closeModalBtn.addEventListener('click', closeUploadModal);
+        cancelUploadBtn.addEventListener('click', closeUploadModal);
+        
+        // Handle file selection
+        uploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+        
+        // Save image
+        saveImageBtn.addEventListener('click', saveImage);
+        
+        // Remove image functionality
+        galleryGrid.addEventListener('click', function(e) {
+            const removeBtn = e.target.closest('[data-action="remove"]');
+            if (removeBtn) {
+                const galleryItem = removeBtn.closest('.masonry-item');
+                if (galleryItem) {
+                    const index = parseInt(galleryItem.dataset.index);
+                    removeImage(index);
+                }
+            }
+        });
+
+        // Close toast
+        closeToast.addEventListener('click', () => {
+            toast.classList.add('translate-y-12', 'opacity-0');
+        });
+
+        // Quality options
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.quality-option')) {
+                const option = e.target.closest('.quality-option');
+                
+                // Update UI
+                document.querySelectorAll('.quality-option').forEach(opt => {
+                    opt.classList.remove('bg-dark-700', 'quality-active');
+                });
+                option.classList.add('bg-dark-700', 'quality-active');
+                
+                // Set quality
+                currentImageQuality = option.dataset.quality;
+            }
+        });
+
+        // Add 3D tilt effect to gallery items
+        document.addEventListener('mousemove', handleTiltEffect);
+        
+        // Set up image viewer functionality
+        setupImageViewer();
+    }
+
+    // Set up image viewer modal functionality
+    
+        
+
+    // Add this function before setupImageViewer
+function validateImageViewerElements() {
+    const requiredElements = {
+        'imageViewerModal': imageViewerModal,
+        'imageViewerImg': imageViewerImg,
+        'imageViewerLoading': imageViewerLoading,
+        'imageViewerCaption': imageViewerCaption,
+        'imageViewerDate': imageViewerDate,
+        'imageViewerQuality': imageViewerQuality,
+        'closeImageViewerBtn': closeImageViewerBtn,
+        'prevImageBtn': prevImageBtn,
+        'nextImageBtn': nextImageBtn
+    };
+    
+    const missingElements = [];
+    
+    for (const [name, element] of Object.entries(requiredElements)) {
+        if (!element) {
+            missingElements.push(name);
+        }
+    }
+    
+    if (missingElements.length > 0) {
+        console.error('Missing image viewer elements:', missingElements);
+        return false;
+    }
+    
+    return true;
 }
-                    
-            function addHoverEffects(galleryItem) {
-                // Add interactive hover effects
-                galleryItem.addEventListener('mouseenter', function() {
-                    // Create floating particles
-                    for (let i = 0; i < 3; i++) {
-                        const particle = document.createElement('div');
-                        particle.className = 'absolute w-1 h-1 rounded-full bg-accent-purple/50';
-                        particle.style.left = `${Math.random() * 100}%`;
-                        particle.style.top = `${Math.random() * 100}%`;
-                        particle.style.animation = `float ${2 + Math.random() * 2}s ease-in-out infinite`;
-                        particle.style.animationDelay = `${Math.random() * 1}s`;
-                        
-                        this.appendChild(particle);
-                        
-                        // Remove particles when animation ends
-                        setTimeout(() => {
-                            if (particle.parentNode === this) {
-                                this.removeChild(particle);
-                            }
-                        }, 4000);
-                    }
-                });
-            }
 
-            function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString(undefined, { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
+function setupImageViewer() {
+    // Validate that all required elements exist
+    if (!validateImageViewerElements()) {
+        console.error('Image viewer setup failed due to missing elements');
+        return;
+    }
+    
+    // Now safely add event listeners
+    galleryGrid.addEventListener('click', function(e) {
+        // Only trigger if we click on the image, not on buttons or other elements
+        const galleryItem = e.target.closest('.gallery-item');
+        if (galleryItem && !e.target.closest('[data-action]')) {
+            const masonryItem = galleryItem.closest('.masonry-item');
+            if (masonryItem) {
+                const index = parseInt(masonryItem.dataset.index);
+                openImageViewer(index);
             }
-
-            function getQualityColor(quality) {
-                switch (quality) {
-                    case 'high': return 'text-green-400';
-                    case 'medium': return 'text-accent-blue';
-                    case 'low': return 'text-yellow-500';
-                    default: return 'text-gray-400';
+        }
+    });
+        // Close modal on button click
+        closeImageViewerBtn.addEventListener('click', closeImageViewer);
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && imageViewerModal.classList.contains('active')) {
+                closeImageViewer();
+            }
+            
+            // Navigate with arrow keys
+            if (imageViewerModal.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') {
+                    navigateImage('prev');
+                } else if (e.key === 'ArrowRight') {
+                    navigateImage('next');
                 }
             }
-
-            function getQualityIcon(quality) {
-                switch (quality) {
-                    case 'high': return 'fa-crown';
-                    case 'medium': return 'fa-badge-check';
-                    case 'low': return 'fa-compress';
-                    default: return 'fa-image';
-                }
+        });
+        
+        // Close modal when clicking on the background (not the image)
+        imageViewerModal.addEventListener('click', function(e) {
+            if (e.target === imageViewerModal || e.target === imageViewerModal.querySelector('.relative')) {
+                closeImageViewer();
             }
+        });
+        
+        // Navigation buttons
+        prevImageBtn.addEventListener('click', () => navigateImage('prev'));
+        nextImageBtn.addEventListener('click', () => navigateImage('next'));
+        
+        // Toggle zoom on image click
+        imageViewerImg.addEventListener('click', function(e) {
+            // Don't close the modal when clicking the image
+            e.stopPropagation();
+            
+            // Toggle zoom
+            toggleZoom();
+        });
+        
+        // Touch events for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let lastTap = 0;
 
-            function capitalizeFirst(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
+        imageViewerModal.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        imageViewerModal.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            
+            // Handle swipe
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                navigateImage('next');
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                navigateImage('prev');
             }
-
-            function openUploadModal() {
-                // First make the modal container visible but with opacity 0
-                uploadModal.classList.remove('pointer-events-none');
-                
-                // Trigger reflow
-                void uploadModal.offsetWidth;
-                
-                // Then animate in the opacity
-                uploadModal.classList.remove('opacity-0');
-                
-                // Finally animate in the modal content with a slight delay
-                setTimeout(() => {
-                    modalContent.classList.remove('opacity-0', 'translate-y-8');
-                    modalContent.classList.add('animate-bounce-in');
-                }, 100);
-                
-                resetUploadForm();
-            }
-
-            function closeUploadModal() {
-                // First animate out the modal content
-                modalContent.classList.remove('animate-bounce-in');
-                modalContent.classList.add('opacity-0', 'translate-y-8');
-                
-                // Then animate out the modal overlay
-                setTimeout(() => {
-                    uploadModal.classList.add('opacity-0');
-                    
-                    // Finally hide the modal completely
-                    setTimeout(() => {
-                        uploadModal.classList.add('pointer-events-none');
-                    }, 500);
-                }, 200);
-                
-                resetUploadForm();
-            }
-
-            function resetUploadForm() {
-                uploadedFile = null;
-                fileInput.value = '';
-                uploadPreview.classList.add('hidden');
-                saveImageBtn.disabled = true;
-                saveButtonText.textContent = 'Save Image';
-                
-                // Reset quality selector to medium
-                document.querySelectorAll('.quality-option').forEach(option => {
-                    option.classList.remove('bg-dark-700', 'quality-active');
-                    if (option.dataset.quality === 'medium') {
-                        option.classList.add('bg-dark-700', 'quality-active');
-                    }
-                });
-                currentImageQuality = 'medium';
-            }
-
-            function handleFileSelect(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    processFile(file);
-                }
-            }
-
-            function handleDragOver(e) {
+            
+            // Handle double tap for zoom
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 300 && tapLength > 0) {
                 e.preventDefault();
-                uploadArea.classList.add('border-accent-pink/50');
-                uploadArea.classList.remove('border-accent-purple/30', 'pulse-border');
+                toggleZoom();
             }
+            lastTap = currentTime;
+        });
+    }
 
-            function handleDragLeave() {
-                uploadArea.classList.remove('border-accent-pink/50');
-                uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+    // Open the image viewer with the selected image
+    function openImageViewer(index) {
+    if (index < 0 || index >= userImages.length) return;
+    
+    // Validate elements again for safety
+    if (!imageViewerModal || !imageViewerImg || !imageViewerLoading) {
+        console.error('Cannot open image viewer: required elements are missing');
+        return;
+    }
+    
+    currentImageIndex = index;
+    const image = userImages[index];
+    
+    // Show loading spinner
+    if (imageViewerLoading) {
+        imageViewerLoading.style.display = 'flex';
+        imageViewerImg.classList.remove('loaded');
+    }
+        
+        
+        // Reset zoom
+        isZoomed = false;
+        imageViewerImg.style.transform = '';
+        imageViewerImg.classList.remove('zoom-out');
+        imageViewerImg.classList.add('zoom-in');
+        
+        // Set image source
+        imageViewerImg.src = image.dataUrl;
+        
+        // Set caption and metadata
+        imageViewerCaption.querySelector('p').textContent = image.caption;
+        imageViewerDate.textContent = formatDate(image.timestamp);
+        
+        // Set quality indicator if available
+        if (image.quality) {
+            const qualitySpan = document.createElement('span');
+            qualitySpan.className = `flex items-center gap-1 ${getQualityColor(image.quality)}`;
+            qualitySpan.innerHTML = `
+                <i class="fas ${getQualityIcon(image.quality)}"></i>
+                ${capitalizeFirst(image.quality)} quality
+            `;
+            imageViewerQuality.innerHTML = '';
+            imageViewerQuality.appendChild(qualitySpan);
+        } else {
+            imageViewerQuality.innerHTML = '';
+        }
+        
+        // Show navigation buttons if we have multiple images
+        const showNav = userImages.length > 1;
+        prevImageBtn.style.display = showNav ? 'flex' : 'none';
+        nextImageBtn.style.display = showNav ? 'flex' : 'none';
+        
+        // Update navigation button states
+        updateNavButtons();
+        
+        // When image is loaded
+        imageViewerImg.onload = function() {
+            // Hide loading spinner
+            imageViewerLoading.style.display = 'none';
+            
+            // Show image with animation
+            imageViewerImg.classList.add('loaded', 'animate-fadeInScale');
+            
+            // Show caption after a short delay
+            setTimeout(() => {
+                imageViewerCaption.classList.add('visible');
+            }, 300);
+            
+            // Show navigation buttons with fade-in
+            if (showNav) {
+                setTimeout(() => {
+                    prevImageBtn.style.opacity = '1';
+                    nextImageBtn.style.opacity = '1';
+                }, 300);
             }
+        };
+        
+        // Show modal
+        imageViewerModal.classList.add('active');
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+        
+        // Preload adjacent images for smoother navigation
+        preloadAdjacentImages();
+    }
 
-            function handleDrop(e) {
-                e.preventDefault();
-                uploadArea.classList.remove('border-accent-pink/50');
-                uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+    // Close the image viewer
+    function closeImageViewer() {
+        // Hide caption
+        imageViewerCaption.classList.remove('visible');
+        
+        // Hide navigation buttons
+        prevImageBtn.style.opacity = '0';
+        nextImageBtn.style.opacity = '0';
+        
+        // Fade out image
+        imageViewerImg.classList.remove('loaded', 'animate-fadeInScale');
+        
+        // Hide modal with animation
+        setTimeout(() => {
+            imageViewerModal.classList.remove('active');
+            
+            // Reset image source after animation completes
+            setTimeout(() => {
+                imageViewerImg.src = '';
+                currentImageIndex = -1;
+            }, 300);
+            
+            // Restore body scrolling
+            document.body.style.overflow = '';
+        }, 200);
+    }
+
+    // Preload adjacent images for smoother navigation
+    function preloadAdjacentImages() {
+        if (currentImageIndex === -1 || userImages.length <= 1) return;
+        
+        // Preload next image
+        const nextIndex = (currentImageIndex + 1) % userImages.length;
+        const nextImage = new Image();
+        nextImage.src = userImages[nextIndex].dataUrl;
+        
+        // Preload previous image
+        const prevIndex = (currentImageIndex - 1 + userImages.length) % userImages.length;
+        const prevImage = new Image();
+        prevImage.src = userImages[prevIndex].dataUrl;
+    }
+
+    // Navigate to previous or next image
+    function navigateImage(direction) {
+        if (currentImageIndex === -1) return;
+        
+        let newIndex = currentImageIndex;
+        
+        if (direction === 'prev') {
+            newIndex = (currentImageIndex - 1 + userImages.length) % userImages.length;
+        } else {
+            newIndex = (currentImageIndex + 1) % userImages.length;
+        }
+        
+        // Only proceed if it's a different image
+        if (newIndex !== currentImageIndex) {
+            // Hide caption and image
+            imageViewerCaption.classList.remove('visible');
+            imageViewerImg.classList.remove('loaded');
+            
+            // Update image index and open new image
+            openImageViewer(newIndex);
+        }
+    }
+
+    // Update navigation button states
+    function updateNavButtons() {
+        // For circular navigation, we don't need to disable buttons
+        // But we can add visual cues if desired
+        
+        // Add a subtle indicator to show which direction has more images
+        const prevCount = currentImageIndex;
+        const nextCount = userImages.length - currentImageIndex - 1;
+        
+        prevImageBtn.title = `Previous image (${prevCount} more)`;
+        nextImageBtn.title = `Next image (${nextCount} more)`;
+    }
+
+    // Toggle zoom on the image
+    function toggleZoom() {
+        if (!isZoomed) {
+            // Zoom in
+            imageViewerImg.style.transform = 'scale(1.5)';
+            imageViewerImg.style.transition = 'transform 0.3s ease';
+            imageViewerImg.classList.remove('zoom-in');
+            imageViewerImg.classList.add('zoom-out');
+            isZoomed = true;
+            
+            // Add pan functionality
+            imageViewerImg.addEventListener('mousemove', handleImagePan);
+        } else {
+            // Zoom out
+            imageViewerImg.style.transform = 'scale(1)';
+            imageViewerImg.classList.remove('zoom-out');
+            imageViewerImg.classList.add('zoom-in');
+            isZoomed = false;
+            
+            // Remove pan functionality
+            imageViewerImg.removeEventListener('mousemove', handleImagePan);
+        }
+    }
+
+    // Handle image panning when zoomed
+    function handleImagePan(e) {
+        if (!isZoomed) return;
+        
+        const rect = imageViewerImg.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calculate how far mouse is from center as a percentage
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Calculate offsets (max 10% movement)
+        const offsetX = ((mouseX - centerX) / (rect.width / 2)) * -10;
+        const offsetY = ((mouseY - centerY) / (rect.height / 2)) * -10;
+        
+        // Apply transform with both scale and translate
+        imageViewerImg.style.transform = `scale(1.5) translate(${offsetX}%, ${offsetY}%)`;
+    }
+
+    async function initIndexedDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+            
+            request.onerror = (event) => {
+                console.error('IndexedDB error:', event.target.error);
+                showToast('Error accessing browser storage', 'error');
+                reject(event.target.error);
+            };
+            
+            request.onsuccess = (event) => {
+                db = event.target.result;
+                console.log('IndexedDB connected');
+                resolve();
+            };
+            
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
                 
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    processFile(file);
-                } else {
-                    showToast('Please upload an image file', 'error');
+                // Create an object store for the images
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                    store.createIndex('timestamp', 'timestamp', { unique: false });
                 }
-            }
+            };
+        });
+    }
 
-            function processFile(file) {
-                uploadedFile = file;
+    async function loadUserImages() {
+        return new Promise((resolve, reject) => {
+            if (!db) {
+                console.error('Database not initialized');
+                resolve([]);
+                return;
+            }
+            
+            const transaction = db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const getAllRequest = store.getAll();
+            
+            getAllRequest.onsuccess = (event) => {
+                userImages = event.target.result || [];
+                // Sort by timestamp, newest first
+                userImages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                renderUserImages();
+                resolve(userImages);
+            };
+            
+            getAllRequest.onerror = (event) => {
+                console.error('Error loading images:', event.target.error);
+                showToast('Error loading your images', 'error');
+                resolve([]);
+            };
+        });
+    }
+
+    function renderUserImages() {
+        // Clear gallery grid
+        galleryGrid.innerHTML = '';
+        
+        // Render user images if available
+        if (userImages.length > 0) {
+            userImages.forEach((image, index) => {
+                // Create a gallery item with proper sizing based on image dimensions
+                createGalleryItem(image, index).then(galleryItem => {
+                    galleryGrid.appendChild(galleryItem);
+                    
+                    // Add staggered animation class
+                    galleryItem.classList.add('stagger-item');
+                    
+                    // Trigger layout calculation
+                    updateMasonryLayout();
+                });
+            });
+            
+            // Animate items with staggered delay
+            setTimeout(() => {
+                animateGalleryItems();
+            }, 100);
+        }
+        
+        // Update empty state visibility
+        checkEmptyState();
+    }
+
+    async function createGalleryItem(image, index) {
+        return new Promise((resolve) => {
+            // Create container elements
+            const masonryItem = document.createElement('div');
+            masonryItem.className = 'masonry-item';
+            masonryItem.dataset.index = index;
+            
+            // Calculate actual aspect ratio from the image
+            const img = new Image();
+            img.onload = function() {
+                const aspectRatio = this.naturalHeight / this.naturalWidth;
                 
-                // Show a loading indicator
-                uploadPreview.classList.remove('hidden');
-                uploadPreview.innerHTML = `
-                    <div class="flex justify-center items-center py-12">
-                        <div class="relative">
-                            <svg class="w-12 h-12 text-accent-purple animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fas fa-image text-accent-pink text-sm animate-pulse"></i>
-                            </div>
-                        </div>
+                // Calculate row span based on actual aspect ratio
+                const rowSpan = Math.ceil(aspectRatio * 15);
+                masonryItem.style.setProperty('--row-span', rowSpan);
+                
+                // Create gallery item with proper aspect ratio
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item tilt-card cursor-pointer'; // Added cursor-pointer class
+                
+                // Create image element
+                const imgElement = document.createElement('img');
+                imgElement.src = image.dataUrl;
+                imgElement.alt = image.caption;
+                
+                // Create overlay with caption and remove button
+                const overlay = document.createElement('div');
+                overlay.className = 'image-overlay';
+                overlay.innerHTML = `
+                    <div class="flex justify-between items-end w-full">
+                        <p class="text-sm text-white font-medium flex-1">${image.caption}</p>
+                        <button class="text-white/80 hover:text-white w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 rounded-full transition-colors" 
+                                data-action="remove" 
+                                data-tooltip="Remove image">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-white/60">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>${formatDate(image.timestamp)}</span>
+                        ${image.quality ? `
+                            <span class="ml-auto flex items-center gap-1 ${getQualityColor(image.quality)}">
+                                <i class="fas ${getQualityIcon(image.quality)}"></i>
+                                ${capitalizeFirst(image.quality)} quality
+                            </span>
+                        ` : ''}
+                    </div>
+                    <div class="mt-2 text-xs text-white/60 flex items-center gap-2">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <span>${Math.round(aspectRatio * 100) / 100} aspect ratio</span>
                     </div>
                 `;
                 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Create a preview with the loaded image
-                    createImagePreview(e.target.result, file.name);
-                };
-                reader.readAsDataURL(file);
+                // Assemble the gallery item
+                galleryItem.appendChild(imgElement);
+                galleryItem.appendChild(overlay);
+                masonryItem.appendChild(galleryItem);
+                
+                // Add hover effects
+                addHoverEffects(galleryItem);
+                
+                // Update masonry layout
+                updateMasonryLayout();
+                
+                resolve(masonryItem);
+            };
+            
+            // Set image source to trigger load event
+            img.src = image.dataUrl;
+            
+            // Handle load errors
+            img.onerror = function() {
+                console.error('Error loading image for gallery item');
+                
+                // Create a fallback item with default aspect ratio
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item tilt-card bg-dark-800 h-full flex items-center justify-center';
+                galleryItem.innerHTML = `
+                    <div class="text-center p-4">
+                        <i class="fas fa-exclamation-circle text-accent-pink text-3xl mb-2"></i>
+                        <p class="text-white/70">Error loading image</p>
+                    </div>
+                `;
+                
+                masonryItem.style.setProperty('--row-span', 20);
+                masonryItem.appendChild(galleryItem);
+                
+                resolve(masonryItem);
+            };
+        });
+    }
+                    
+    function addHoverEffects(galleryItem) {
+        // Add interactive hover effects
+        galleryItem.addEventListener('mouseenter', function() {
+            // Create floating particles
+            for (let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute w-1 h-1 rounded-full bg-accent-purple/50';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animation = `float ${2 + Math.random() * 2}s ease-in-out infinite`;
+                particle.style.animationDelay = `${Math.random() * 1}s`;
+                
+                this.appendChild(particle);
+                
+                // Remove particles when animation ends
+                setTimeout(() => {
+                    if (particle.parentNode === this) {
+                        this.removeChild(particle);
+                    }
+                }, 4000);
             }
+        });
+    }
 
-            function createImagePreview(dataUrl, fileName) {
-                // Create an image element to get dimensions
-                const img = new Image();
-                img.onload = function() {
-                    // Calculate dimensions for display
-                    const width = this.naturalWidth;
-                    const height = this.naturalHeight;
-                    const aspectRatio = height / width;
-                    const fileSize = Math.round(dataUrl.length / 1024);
-                    
-                    // Extract file name without extension
-                    const nameWithoutExt = fileName ? fileName.replace(/\.[^/.]+$/, "") : "Image";
-                    
-                    // Recreate the preview area with the image and dimensions
-                    uploadPreview.innerHTML = `
-                        <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 shadow-lg image-shine relative group">
-                            <img id="previewImage" class="w-full h-auto" src="${dataUrl}" alt="Preview">
-                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
-                                                <div class="flex flex-wrap items-center gap-3 text-xs text-gray-400 mb-5 bg-dark-800/30 p-2 rounded-lg">
-                            <span class="flex items-center gap-1" title="Image dimensions">
-                                <i class="fas fa-ruler-combined"></i> ${width} × ${height}px
-                            </span>
-                            <span class="flex items-center gap-1" title="File size">
-                                <i class="fas fa-file-image"></i> ${fileSize} KB
-                            </span>
-                            <span class="flex items-center gap-1" title="Aspect ratio">
-                                <i class="fas fa-expand-arrows-alt"></i> ${aspectRatio.toFixed(2)}
-                            </span>
-                            <div class="w-full h-px bg-dark-700 my-1"></div>
-                            <span class="flex items-center gap-1 text-accent-purple">
-                                <i class="fas fa-info-circle"></i> Original aspect ratio will be preserved
-                            </span>
-                        </div>
-                        <div class="mb-5">
-                            <label for="imageCaption" class="block text-sm text-gray-300 mb-2 font-medium">Image Caption</label>
-                            <div class="relative">
-                                <i class="fas fa-font absolute left-3 top-3 text-gray-500"></i>
-                                <input type="text" id="imageCaption" class="w-full bg-dark-800/50 border border-dark-600 rounded-lg py-2.5 pl-10 pr-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple focus:border-transparent transition-all duration-300" 
-                                    placeholder="Add a caption for your image" 
-                                    value="${nameWithoutExt.replace(/[_-]/g, ' ')}">
-                            </div>
-                        </div>
-                        <div class="mb-5">
-                            <label class="block text-sm text-gray-300 mb-2 font-medium">Image Quality</label>
-                            <div class="bg-dark-800/50 rounded-lg p-1 flex">
-                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="high">
-                                    <div class="font-medium">High</div>
-                                    <div class="text-xs text-gray-400 mt-1">Original Size</div>
-                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-green-500" style="width: 100%;"></div>
-                                </button>
-                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center quality-active bg-dark-700" data-quality="medium">
-                                    <div class="font-medium">Medium</div>
-                                    <div class="text-xs text-gray-400 mt-1">Balanced</div>
-                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-accent-blue" style="width: 67%;"></div>
-                                </button>
-                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="low">
-                                    <div class="font-medium">Low</div>
-                                    <div class="text-xs text-gray-400 mt-1">Save Space</div>
-                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-yellow-500" style="width: 33%;"></div>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Reassign DOM elements that were recreated
-                    const previewImage = document.getElementById('previewImage');
-                    const imageCaption = document.getElementById('imageCaption');
-                    
-                    // Auto-focus and select text in the caption field for better UX
-                    setTimeout(() => {
-                        imageCaption.focus();
-                        imageCaption.select();
-                    }, 100);
-                    
-                    // Enable save button since we've pre-filled the caption
-                    saveImageBtn.disabled = !imageCaption.value.trim();
-                    
-                    // Reattach event listener for caption input
-                    imageCaption.addEventListener('input', () => {
-                        saveImageBtn.disabled = !imageCaption.value.trim();
-                    });
-                    
-                    // Add interactive animation to the preview
-                    addPreviewInteractivity(previewImage);
-                };
-                
-                // Handle image load error
-                img.onerror = function() {
-                    uploadPreview.innerHTML = `
-                        <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 p-8 text-center">
-                            <div class="text-accent-pink text-4xl mb-3">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </div>
-                            <p class="text-white mb-2">Error loading image</p>
-                            <p class="text-sm text-gray-400">The selected file could not be processed</p>
-                        </div>
-                        
-                        <button class="w-full py-2.5 rounded-lg bg-dark-700 hover:bg-dark-600 text-white transition-all duration-300 text-sm flex items-center justify-center gap-2 mt-3">
-                            <i class="fas fa-redo-alt"></i>
-                            <span>Try again</span>
-                        </button>
-                    `;
-                    
-                    // Add event listener to try again button
-                    const tryAgainBtn = uploadPreview.querySelector('button');
-                    tryAgainBtn.addEventListener('click', () => {
-                        uploadPreview.classList.add('hidden');
-                        fileInput.click();
-                    });
-                };
-                
-                img.src = dataUrl;
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+    }
+
+    function getQualityColor(quality) {
+        switch (quality) {
+            case 'high': return 'text-green-400';
+            case 'medium': return 'text-accent-blue';
+            case 'low': return 'text-yellow-500';
+            default: return 'text-gray-400';
+        }
+    }
+
+    function getQualityIcon(quality) {
+        switch (quality) {
+            case 'high': return 'fa-crown';
+            case 'medium': return 'fa-badge-check';
+            case 'low': return 'fa-compress';
+            default: return 'fa-image';
+        }
+    }
+
+    function capitalizeFirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function openUploadModal() {
+        // First make the modal container visible but with opacity 0
+        uploadModal.classList.remove('pointer-events-none');
+        
+        // Trigger reflow
+        void uploadModal.offsetWidth;
+        
+        // Then animate in the opacity
+        uploadModal.classList.remove('opacity-0');
+        
+        // Finally animate in the modal content with a slight delay
+        setTimeout(() => {
+            modalContent.classList.remove('opacity-0', 'translate-y-8');
+            modalContent.classList.add('animate-bounce-in');
+        }, 100);
+        
+        resetUploadForm();
+    }
+
+    function closeUploadModal() {
+        // First animate out the modal content
+        modalContent.classList.remove('animate-bounce-in');
+        modalContent.classList.add('opacity-0', 'translate-y-8');
+        
+        // Then animate out the modal overlay
+        setTimeout(() => {
+            uploadModal.classList.add('opacity-0');
+            
+            // Finally hide the modal completely
+            setTimeout(() => {
+                uploadModal.classList.add('pointer-events-none');
+            }, 500);
+        }, 200);
+        
+        resetUploadForm();
+    }
+
+    function resetUploadForm() {
+        uploadedFile = null;
+        fileInput.value = '';
+        uploadPreview.classList.add('hidden');
+        saveImageBtn.disabled = true;
+        saveButtonText.textContent = 'Save Image';
+        
+        // Reset quality selector to medium
+        document.querySelectorAll('.quality-option').forEach(option => {
+            option.classList.remove('bg-dark-700', 'quality-active');
+            if (option.dataset.quality === 'medium') {
+                option.classList.add('bg-dark-700', 'quality-active');
             }
+        });
+        currentImageQuality = 'medium';
+    }
 
-            function addPreviewInteractivity(previewImg) {
-                // Add subtle hover effect to preview image
-                previewImg.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width;
-                    const y = (e.clientY - rect.top) / rect.height;
-                    
-                    // Apply a subtle transform for a 3D effect
-                    this.style.transform = `perspective(1000px) rotateX(${(y - 0.5) * -5}deg) rotateY(${(x - 0.5) * 5}deg) scale(1.02)`;
-                });
-                
-                previewImg.addEventListener('mouseleave', function() {
-                    // Reset transform
-                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                });
-            }
+    function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (file) {
+            processFile(file);
+        }
+    }
 
-            async function saveImage() {
-                if (!uploadedFile) return;
-                
-                const imageCaption = document.getElementById('imageCaption');
-                const caption = imageCaption.value.trim() || 'Untitled image';
-                const previewImage = document.getElementById('previewImage');
-                
-                // Show processing state with animated loader
-                saveImageBtn.disabled = true;
-                saveImageBtn.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    function handleDragOver(e) {
+        e.preventDefault();
+        uploadArea.classList.add('border-accent-pink/50');
+        uploadArea.classList.remove('border-accent-purple/30', 'pulse-border');
+    }
+
+    function handleDragLeave() {
+        uploadArea.classList.remove('border-accent-pink/50');
+        uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('border-accent-pink/50');
+        uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+        
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            processFile(file);
+        } else {
+            showToast('Please upload an image file', 'error');
+        }
+    }
+
+    function processFile(file) {
+        uploadedFile = file;
+        
+        // Show a loading indicator
+        uploadPreview.classList.remove('hidden');
+        uploadPreview.innerHTML = `
+            <div class="flex justify-center items-center py-12">
+                <div class="relative">
+                    <svg class="w-12 h-12 text-accent-purple animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Processing...
-                `;
-                
-                try {
-                    // Compress image based on selected quality while preserving aspect ratio
-                    const compressedImageData = await compressImage(previewImage.src, currentImageQuality);
-                    
-                    // Create image data object
-                    const imageData = {
-                        dataUrl: compressedImageData,
-                        caption: caption,
-                        timestamp: new Date().toISOString(),
-                        quality: currentImageQuality
-                    };
-                    
-                    // Save to IndexedDB
-                    await addImageToDb(imageData);
-                    
-                    // Close modal with success animation
-                    closeUploadModalWithSuccess();
-                    
-                    // Reload images to get the updated list with IDs
-                    await loadUserImages();
-                    
-                    // Show success toast
-                    showToast('Image uploaded successfully!', 'success');
-                } catch (error) {
-                    console.error('Error saving image:', error);
-                    
-                    showToast('Error saving image: ' + error.message, 'error');
-                    
-                    // Reset button state
-                    saveImageBtn.disabled = false;
-                    saveImageBtn.innerHTML = `
-                        <i class="fas fa-save"></i>
-                        <span>Save Image</span>
-                    `;
-                }
-            }
-
-            function closeUploadModalWithSuccess() {
-                // Add success animation to modal content
-                modalContent.classList.add('animate-pulse-slow');
-                modalContent.style.borderColor = '#10B981';
-                
-                // Add checkmark animation
-                const successOverlay = document.createElement('div');
-                successOverlay.className = 'absolute inset-0 flex items-center justify-center bg-dark-900/30 backdrop-blur z-10 animate-fade-in';
-                successOverlay.innerHTML = `
-                    <div class="bg-gradient-to-r from-green-500 to-accent-teal rounded-full p-4 transform scale-0 animate-scale-in">
-                        <i class="fas fa-check text-white text-2xl"></i>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fas fa-image text-accent-pink text-sm animate-pulse"></i>
                     </div>
-                `;
-                modalContent.appendChild(successOverlay);
-                
-                // Add particle effects
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => {
-                        if (successOverlay.parentNode) {
-                            const particle = document.createElement('div');
-                            particle.className = 'absolute w-1.5 h-1.5 rounded-full';
-                            particle.style.background = `rgb(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255)`;
-                            particle.style.left = '50%';
-                            particle.style.top = '50%';
-                            particle.style.transform = 'translate(-50%, -50%)';
-                            
-                            // Randomize the particle animation
-                            const angle = Math.random() * Math.PI * 2;
-                            const distance = 50 + Math.random() * 100;
-                            const duration = 0.5 + Math.random() * 1;
-                            
-                            particle.animate([
-                                { transform: 'translate(-50%, -50%)', opacity: 1 },
-                                { 
-                                    transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`, 
-                                    opacity: 0 
-                                }
-                            ], {
-                                duration: duration * 1000,
-                                easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)'
-                            });
-                            
-                            successOverlay.appendChild(particle);
-                            
-                            // Remove particle after animation completes
-                            setTimeout(() => {
-                                if (particle.parentNode) {
-                                    particle.parentNode.removeChild(particle);
-                                }
-                            }, duration * 1000);
-                        }
-                    }, i * 50);
-                }
-                
-                // Close the modal after success animation
-                setTimeout(() => {
-                    closeUploadModal();
-                    setTimeout(() => {
-                        modalContent.classList.remove('animate-pulse-slow');
-                        modalContent.style.borderColor = '';
-                        if (successOverlay.parentNode === modalContent) {
-                            modalContent.removeChild(successOverlay);
-                        }
-                    }, 500);
-                }, 1500);
-            }
+                </div>
+            </div>
+        `;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Create a preview with the loaded image
+            createImagePreview(e.target.result, file.name);
+        };
+        reader.readAsDataURL(file);
+    }
 
-            function compressImage(dataUrl, quality) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        // Resize based on quality setting while preserving aspect ratio
-                        if (quality === 'low') {
-                            const maxDimension = 800;
-                            if (width > height && width > maxDimension) {
-                                height = Math.round((height * maxDimension) / width);
-                                width = maxDimension;
-                            } else if (height > maxDimension) {
-                                width = Math.round((width * maxDimension) / height);
-                                height = maxDimension;
-                            }
-                        } else if (quality === 'medium') {
-                            const maxDimension = 1200;
-                            if (width > height && width > maxDimension) {
-                                height = Math.round((height * maxDimension) / width);
-                                width = maxDimension;
-                            } else if (height > maxDimension) {
-                                width = Math.round((width * maxDimension) / height);
-                                height = maxDimension;
-                            }
-                        } else {
-                            // For high quality, we'll just compress slightly if it's very large
-                            const maxDimension = 2000;
-                            if (width > height && width > maxDimension) {
-                                height = Math.round((height * maxDimension) / width);
-                                width = maxDimension;
-                            } else if (height > maxDimension) {
-                                width = Math.round((width * maxDimension) / height);
-                                height = maxDimension;
-                            }
-                        }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // Get compression quality value
-                        let compressionQuality = 0.7; // Default medium
-                        if (quality === 'low') {
-                            compressionQuality = 0.5;
-                        } else if (quality === 'high') {
-                            compressionQuality = 0.9;
-                        }
-                        
-                        // Get compressed data URL
-                        const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
-                        resolve(compressedDataUrl);
-                    };
-                    
-                    img.onerror = function() {
-                        reject(new Error('Failed to load image for compression'));
-                    };
-                    
-                    img.src = dataUrl;
-                });
-            }
+    function createImagePreview(dataUrl, fileName) {
+        // Create an image element to get dimensions
+        const img = new Image();
+        img.onload = function() {
+            // Calculate dimensions for display
+            const width = this.naturalWidth;
+            const height = this.naturalHeight;
+            const aspectRatio = height / width;
+            const fileSize = Math.round(dataUrl.length / 1024);
+            
+            // Extract file name without extension
+            const nameWithoutExt = fileName ? fileName.replace(/\.[^/.]+$/, "") : "Image";
+            
+            // Recreate the preview area with the image and dimensions
+            uploadPreview.innerHTML = `
+                <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 shadow-lg image-shine relative group">
+                    <img id="previewImage" class="w-full h-auto" src="${dataUrl}" alt="Preview">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                                        <div class="flex flex-wrap items-center gap-3 text-xs text-gray-400 mb-5 bg-dark-800/30 p-2 rounded-lg">
+                    <span class="flex items-center gap-1" title="Image dimensions">
+                        <i class="fas fa-ruler-combined"></i> ${width} × ${height}px
+                    </span>
+                    <span class="flex items-center gap-1" title="File size">
+                        <i class="fas fa-file-image"></i> ${fileSize} KB
+                    </span>
+                    <span class="flex items-center gap-1" title="Aspect ratio">
+                        <i class="fas fa-expand-arrows-alt"></i> ${aspectRatio.toFixed(2)}
+                    </span>
+                    <div class="w-full h-px bg-dark-700 my-1"></div>
+                    <span class="flex items-center gap-1 text-accent-purple">
+                        <i class="fas fa-info-circle"></i> Original aspect ratio will be preserved
+                    </span>
+                </div>
+                <div class="mb-5">
+                    <label for="imageCaption" class="block text-sm text-gray-300 mb-2 font-medium">Image Caption</label>
+                    <div class="relative">
+                        <i class="fas fa-font absolute left-3 top-3 text-gray-500"></i>
+                        <input type="text" id="imageCaption" class="w-full bg-dark-800/50 border border-dark-600 rounded-lg py-2.5 pl-10 pr-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple focus:border-transparent transition-all duration-300" 
+                            placeholder="Add a caption for your image" 
+                            value="${nameWithoutExt.replace(/[_-]/g, ' ')}">
+                    </div>
+                </div>
+                                <div class="mb-5">
+                    <label class="block text-sm text-gray-300 mb-2 font-medium">Image Quality</label>
+                    <div class="bg-dark-800/50 rounded-lg p-1 flex">
+                        <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="high">
+                            <div class="font-medium">High</div>
+                            <div class="text-xs text-gray-400 mt-1">Original Size</div>
+                            <div class="absolute bottom-0 left-0 right-0 quality-bar bg-green-500" style="width: 100%;"></div>
+                        </button>
+                        <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center quality-active bg-dark-700" data-quality="medium">
+                            <div class="font-medium">Medium</div>
+                            <div class="text-xs text-gray-400 mt-1">Balanced</div>
+                            <div class="absolute bottom-0 left-0 right-0 quality-bar bg-accent-blue" style="width: 67%;"></div>
+                        </button>
+                        <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="low">
+                            <div class="font-medium">Low</div>
+                            <div class="text-xs text-gray-400 mt-1">Save Space</div>
+                            <div class="absolute bottom-0 left-0 right-0 quality-bar bg-yellow-500" style="width: 33%;"></div>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Reassign DOM elements that were recreated
+            const previewImage = document.getElementById('previewImage');
+            const imageCaption = document.getElementById('imageCaption');
+            
+            // Auto-focus and select text in the caption field for better UX
+            setTimeout(() => {
+                imageCaption.focus();
+                imageCaption.select();
+            }, 100);
+            
+            // Enable save button since we've pre-filled the caption
+            saveImageBtn.disabled = !imageCaption.value.trim();
+            
+            // Reattach event listener for caption input
+            imageCaption.addEventListener('input', () => {
+                saveImageBtn.disabled = !imageCaption.value.trim();
+            });
+            
+            // Add interactive animation to the preview
+            addPreviewInteractivity(previewImage);
+        };
+        
+        // Handle image load error
+        img.onerror = function() {
+            uploadPreview.innerHTML = `
+                <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 p-8 text-center">
+                    <div class="text-accent-pink text-4xl mb-3">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <p class="text-white mb-2">Error loading image</p>
+                    <p class="text-sm text-gray-400">The selected file could not be processed</p>
+                </div>
+                
+                <button class="w-full py-2.5 rounded-lg bg-dark-700 hover:bg-dark-600 text-white transition-all duration-300 text-sm flex items-center justify-center gap-2 mt-3">
+                    <i class="fas fa-redo-alt"></i>
+                    <span>Try again</span>
+                </button>
+            `;
+            
+            // Add event listener to try again button
+            const tryAgainBtn = uploadPreview.querySelector('button');
+            tryAgainBtn.addEventListener('click', () => {
+                uploadPreview.classList.add('hidden');
+                fileInput.click();
+            });
+        };
+        
+        img.src = dataUrl;
+    }
 
-            async function addImageToDb(imageData) {
-                return new Promise((resolve, reject) => {
-                    if (!db) {
-                        reject(new Error('Database not initialized'));
-                        return;
-                    }
-                    
-                    try {
-                        const transaction = db.transaction([STORE_NAME], 'readwrite');
-                        const store = transaction.objectStore(STORE_NAME);
-                        const request = store.add(imageData);
-                        
-                        request.onsuccess = (event) => {
-                            resolve(event.target.result); // Returns the ID
-                        };
-                        
-                        request.onerror = (event) => {
-                            console.error('IndexedDB error:', event.target.error);
-                            reject(event.target.error);
-                        };
-                    } catch (error) {
-                        console.error('Error in addImageToDb:', error);
-                        reject(error);
-                    }
-                });
-            }
+    function addPreviewInteractivity(previewImg) {
+        // Add subtle hover effect to preview image
+        previewImg.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            
+            // Apply a subtle transform for a 3D effect
+            this.style.transform = `perspective(1000px) rotateX(${(y - 0.5) * -5}deg) rotateY(${(x - 0.5) * 5}deg) scale(1.02)`;
+        });
+        
+        previewImg.addEventListener('mouseleave', function() {
+            // Reset transform
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        });
+    }
 
-            async function removeImage(index) {
-                if (index < 0 || index >= userImages.length) return;
-                
-                // Get the image ID
-                const imageId = userImages[index].id;
-                
-                // Get the DOM element
-                const item = document.querySelector(`.masonry-item[data-index="${index}"]`);
-                if (!item) return;
-                
-                // Add removal animation with particles
-                item.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
-                item.style.transform = 'scale(0.8)';
-                item.style.opacity = '0';
-                
-                // Add particle explosion effect
-                const rect = item.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                
-                // Create a container for the particles
-                const particleContainer = document.createElement('div');
-                particleContainer.style.position = 'fixed';
-                particleContainer.style.left = '0';
-                particleContainer.style.top = '0';
-                particleContainer.style.width = '100%';
-                particleContainer.style.height = '100%';
-                particleContainer.style.pointerEvents = 'none';
-                particleContainer.style.zIndex = '100';
-                document.body.appendChild(particleContainer);
-                
-                // Add particles
-                for (let i = 0; i < 20; i++) {
+    async function saveImage() {
+        if (!uploadedFile) return;
+        
+        const imageCaption = document.getElementById('imageCaption');
+        const caption = imageCaption.value.trim() || 'Untitled image';
+        const previewImage = document.getElementById('previewImage');
+        
+        // Show processing state with animated loader
+        saveImageBtn.disabled = true;
+        saveImageBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Processing...
+        `;
+        
+        try {
+            // Compress image based on selected quality while preserving aspect ratio
+            const compressedImageData = await compressImage(previewImage.src, currentImageQuality);
+            
+            // Create image data object
+            const imageData = {
+                dataUrl: compressedImageData,
+                caption: caption,
+                timestamp: new Date().toISOString(),
+                quality: currentImageQuality
+            };
+            
+            // Save to IndexedDB
+            await addImageToDb(imageData);
+            
+            // Close modal with success animation
+            closeUploadModalWithSuccess();
+            
+            // Reload images to get the updated list with IDs
+            await loadUserImages();
+            
+            // Show success toast
+            showToast('Image uploaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error saving image:', error);
+            
+            showToast('Error saving image: ' + error.message, 'error');
+            
+            // Reset button state
+            saveImageBtn.disabled = false;
+            saveImageBtn.innerHTML = `
+                <i class="fas fa-save"></i>
+                <span>Save Image</span>
+            `;
+        }
+    }
+
+    function closeUploadModalWithSuccess() {
+        // Add success animation to modal content
+        modalContent.classList.add('animate-pulse-slow');
+        modalContent.style.borderColor = '#10B981';
+        
+        // Add checkmark animation
+        const successOverlay = document.createElement('div');
+        successOverlay.className = 'absolute inset-0 flex items-center justify-center bg-dark-900/30 backdrop-blur z-10 animate-fade-in';
+        successOverlay.innerHTML = `
+            <div class="bg-gradient-to-r from-green-500 to-accent-teal rounded-full p-4 transform scale-0 animate-scale-in">
+                <i class="fas fa-check text-white text-2xl"></i>
+            </div>
+        `;
+        modalContent.appendChild(successOverlay);
+        
+        // Add particle effects
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                if (successOverlay.parentNode) {
                     const particle = document.createElement('div');
-                    particle.className = 'absolute rounded-full';
-                    particle.style.width = `${Math.random() * 6 + 2}px`;
-                    particle.style.height = particle.style.width;
+                    particle.className = 'absolute w-1.5 h-1.5 rounded-full';
                     particle.style.background = `rgb(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255)`;
-                    particle.style.left = `${centerX}px`;
-                    particle.style.top = `${centerY}px`;
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    particle.style.transform = 'translate(-50%, -50%)';
                     
                     // Randomize the particle animation
                     const angle = Math.random() * Math.PI * 2;
@@ -1428,9 +1785,9 @@
                     const duration = 0.5 + Math.random() * 1;
                     
                     particle.animate([
-                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                        { transform: 'translate(-50%, -50%)', opacity: 1 },
                         { 
-                            transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(0)`, 
+                            transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`, 
                             opacity: 0 
                         }
                     ], {
@@ -1438,7 +1795,7 @@
                         easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)'
                     });
                     
-                    particleContainer.appendChild(particle);
+                    successOverlay.appendChild(particle);
                     
                     // Remove particle after animation completes
                     setTimeout(() => {
@@ -1447,193 +1804,368 @@
                         }
                     }, duration * 1000);
                 }
-                
-                // Remove particle container after all animations
-                setTimeout(() => {
-                    if (document.body.contains(particleContainer)) {
-                        document.body.removeChild(particleContainer);
-                    }
-                }, 2000);
-                
-                setTimeout(async () => {
-                    try {
-                        // Remove from database
-                        await deleteImageFromDb(imageId);
-                        
-                        // Reload images
-                        await loadUserImages();
-                        
-                        // Show toast
-                        showToast('Image removed successfully', 'info');
-                    } catch (error) {
-                        console.error('Error removing image:', error);
-                        showToast('Error removing image', 'error');
-                    }
-                }, 500);
-            }
-
-            async function deleteImageFromDb(id) {
-                return new Promise((resolve, reject) => {
-                    if (!db) {
-                        reject(new Error('Database not initialized'));
-                        return;
-                    }
-                    
-                    const transaction = db.transaction([STORE_NAME], 'readwrite');
-                    const store = transaction.objectStore(STORE_NAME);
-                    const request = store.delete(id);
-                    
-                    request.onsuccess = () => {
-                        resolve();
-                    };
-                    
-                    request.onerror = (event) => {
-                        console.error('Error deleting image:', event.target.error);
-                        reject(event.target.error);
-                    };
-                });
-            }
-
-            function showToast(message, type = 'success') {
-                toastMessage.textContent = message;
-                
-                // Set icon based on type
-                if (type === 'success') {
-                    toastIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                    toastIcon.className = 'text-green-400 text-xl';
-                } else if (type === 'error') {
-                    toastIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
-                    toastIcon.className = 'text-red-400 text-xl';
-                } else if (type === 'info') {
-                    toastIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
-                    toastIcon.className = 'text-accent-blue text-xl';
+            }, i * 50);
+        }
+        
+        // Close the modal after success animation
+        setTimeout(() => {
+            closeUploadModal();
+            setTimeout(() => {
+                modalContent.classList.remove('animate-pulse-slow');
+                modalContent.style.borderColor = '';
+                if (successOverlay.parentNode === modalContent) {
+                    modalContent.removeChild(successOverlay);
                 }
-                
-                // Show toast with animation
-                toast.classList.remove('translate-y-12', 'opacity-0');
-                
-                // Add bounce effect
-                toast.classList.add('animate-bounce-in');
-                
-                // Remove animation class after it completes
-                setTimeout(() => {
-                    toast.classList.remove('animate-bounce-in');
-                }, 500);
-                
-                // Auto-hide after 5 seconds
-                const toastTimeout = setTimeout(() => {
-                    toast.classList.add('translate-y-12', 'opacity-0');
-                }, 5000);
-                
-                // Clear timeout if toast is closed manually
-                closeToast.onclick = () => {
-                    clearTimeout(toastTimeout);
-                    toast.classList.add('translate-y-12', 'opacity-0');
-                };
-            }
+            }, 500);
+        }, 1500);
+    }
 
-            function checkEmptyState() {
-                if (userImages.length === 0) {
-                    emptyState.classList.remove('hidden');
-                    galleryGrid.classList.add('hidden');
+    function compressImage(dataUrl, quality) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                
+                // Resize based on quality setting while preserving aspect ratio
+                if (quality === 'low') {
+                    const maxDimension = 800;
+                    if (width > height && width > maxDimension) {
+                        height = Math.round((height * maxDimension) / width);
+                        width = maxDimension;
+                    } else if (height > maxDimension) {
+                        width = Math.round((width * maxDimension) / height);
+                        height = maxDimension;
+                    }
+                } else if (quality === 'medium') {
+                    const maxDimension = 1200;
+                    if (width > height && width > maxDimension) {
+                        height = Math.round((height * maxDimension) / width);
+                        width = maxDimension;
+                    } else if (height > maxDimension) {
+                        width = Math.round((width * maxDimension) / height);
+                        height = maxDimension;
+                    }
                 } else {
-                    emptyState.classList.add('hidden');
-                    galleryGrid.classList.remove('hidden');
-                }
-            }
-
-            function animateGalleryItems() {
-                const galleryItems = document.querySelectorAll('.stagger-item');
-                
-                galleryItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.add('animate-scale-in');
-                    }, 50 * index);
-                });
-            }
-
-            function showLoadingState() {
-                loadingState.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-                galleryGrid.classList.add('hidden');
-            }
-
-            function hideLoadingState() {
-                loadingState.classList.add('hidden');
-            }
-
-            function initResizeObserver() {
-                if (resizeObserver) {
-                    resizeObserver.disconnect();
-                }
-                
-                resizeObserver = new ResizeObserver(entries => {
-                    updateMasonryLayout();
-                });
-                
-                // Observe the gallery container
-                resizeObserver.observe(galleryGrid);
-            }
-
-            function updateMasonryLayout() {
-                // This function will be called when images load or when the window resizes
-                // Force a reflow to recalculate the grid layout
-                galleryGrid.style.display = 'none';
-                void galleryGrid.offsetHeight; // Force reflow
-                galleryGrid.style.display = '';
-            }
-
-            function handleTiltEffect(e) {
-                const cards = document.querySelectorAll('.tilt-card');
-                
-                cards.forEach(card => {
-                    // Get the card's position relative to the viewport
-                    const rect = card.getBoundingClientRect();
-                    
-                    // Calculate the center of the card
-                    const cardCenterX = rect.left + rect.width / 2;
-                    const cardCenterY = rect.top + rect.height / 2;
-                    
-                    // Calculate the distance from the mouse to the center of the card
-                    const distanceX = e.clientX - cardCenterX;
-                    const distanceY = e.clientY - cardCenterY;
-                    
-                    // Limit the tilt effect to cards near the mouse
-                    const proximityThreshold = 300; // pixels
-                    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-                    
-                    if (distance < proximityThreshold) {
-                        // Calculate the tilt amount based on the distance from the mouse to the card center
-                        // The closer the mouse, the stronger the effect
-                        const strength = 1 - distance / proximityThreshold;
-                        const tiltX = distanceY / 25 * strength;
-                        const tiltY = -distanceX / 25 * strength;
-                        
-                        // Apply the tilt effect
-                        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
-                    } else {
-                        // Reset the transform for cards that are far from the mouse
-                        card.style.transform = '';
+                    // For high quality, we'll just compress slightly if it's very large
+                    const maxDimension = 2000;
+                    if (width > height && width > maxDimension) {
+                        height = Math.round((height * maxDimension) / width);
+                        width = maxDimension;
+                    } else if (height > maxDimension) {
+                        width = Math.round((width * maxDimension) / height);
+                        height = maxDimension;
                     }
-                });
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Get compression quality value
+                let compressionQuality = 0.7; // Default medium
+                if (quality === 'low') {
+                    compressionQuality = 0.5;
+                } else if (quality === 'high') {
+                    compressionQuality = 0.9;
+                }
+                
+                // Get compressed data URL
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
+                resolve(compressedDataUrl);
+            };
+            
+            img.onerror = function() {
+                reject(new Error('Failed to load image for compression'));
+            };
+            
+            img.src = dataUrl;
+        });
+    }
+
+    async function addImageToDb(imageData) {
+        return new Promise((resolve, reject) => {
+            if (!db) {
+                reject(new Error('Database not initialized'));
+                return;
             }
-
-            // Listen for window resize events to update the masonry layout
-            window.addEventListener('resize', debounce(updateMasonryLayout, 200));
-
-            // Debounce function to limit the rate at which a function can fire
-            function debounce(func, wait) {
-                let timeout;
-                return function() {
-                    const context = this;
-                    const args = arguments;
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => {
-                        func.apply(context, args);
-                    }, wait);
+            
+            try {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.add(imageData);
+                
+                request.onsuccess = (event) => {
+                    resolve(event.target.result); // Returns the ID
                 };
+                
+                request.onerror = (event) => {
+                    console.error('IndexedDB error:', event.target.error);
+                    reject(event.target.error);
+                };
+            } catch (error) {
+                console.error('Error in addImageToDb:', error);
+                reject(error);
             }
         });
+    }
+
+    async function removeImage(index) {
+        if (index < 0 || index >= userImages.length) return;
+        
+        // Get the image ID
+        const imageId = userImages[index].id;
+        
+        // Get the DOM element
+        const item = document.querySelector(`.masonry-item[data-index="${index}"]`);
+        if (!item) return;
+        
+        // Add removal animation with particles
+        item.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+        item.style.transform = 'scale(0.8)';
+        item.style.opacity = '0';
+        
+        // Add particle explosion effect
+        const rect = item.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Create a container for the particles
+        const particleContainer = document.createElement('div');
+        particleContainer.style.position = 'fixed';
+        particleContainer.style.left = '0';
+        particleContainer.style.top = '0';
+        particleContainer.style.width = '100%';
+        particleContainer.style.height = '100%';
+        particleContainer.style.pointerEvents = 'none';
+        particleContainer.style.zIndex = '100';
+        document.body.appendChild(particleContainer);
+        
+        // Add particles
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'absolute rounded-full';
+            particle.style.width = `${Math.random() * 6 + 2}px`;
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgb(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255)`;
+            particle.style.left = `${centerX}px`;
+            particle.style.top = `${centerY}px`;
+            
+            // Randomize the particle animation
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 100;
+            const duration = 0.5 + Math.random() * 1;
+            
+            particle.animate([
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { 
+                    transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(0)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)'
+            });
+            
+            particleContainer.appendChild(particle);
+            
+            // Remove particle after animation completes
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, duration * 1000);
+        }
+        
+        // Remove particle container after all animations
+        setTimeout(() => {
+            if (document.body.contains(particleContainer)) {
+                document.body.removeChild(particleContainer);
+            }
+        }, 2000);
+        
+        setTimeout(async () => {
+            try {
+                // Remove from database
+                await deleteImageFromDb(imageId);
+                
+                // Reload images
+                await loadUserImages();
+                
+                // Show toast
+                showToast('Image removed successfully', 'info');
+            } catch (error) {
+                console.error('Error removing image:', error);
+                showToast('Error removing image', 'error');
+            }
+        }, 500);
+    }
+
+    async function deleteImageFromDb(id) {
+        return new Promise((resolve, reject) => {
+            if (!db) {
+                reject(new Error('Database not initialized'));
+                return;
+            }
+            
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.delete(id);
+            
+            request.onsuccess = () => {
+                resolve();
+            };
+            
+            request.onerror = (event) => {
+                console.error('Error deleting image:', event.target.error);
+                reject(event.target.error);
+            };
+        });
+    }
+
+    function showToast(message, type = 'success') {
+        toastMessage.textContent = message;
+        
+        // Set icon based on type
+        if (type === 'success') {
+            toastIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+            toastIcon.className = 'text-green-400 text-xl';
+        } else if (type === 'error') {
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+            toastIcon.className = 'text-red-400 text-xl';
+        } else if (type === 'info') {
+            toastIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
+            toastIcon.className = 'text-accent-blue text-xl';
+        }
+        
+        // Show toast with animation
+        toast.classList.remove('translate-y-12', 'opacity-0');
+        
+        // Add bounce effect
+        toast.classList.add('animate-bounce-in');
+        
+        // Remove animation class after it completes
+        setTimeout(() => {
+            toast.classList.remove('animate-bounce-in');
+        }, 500);
+        
+        // Auto-hide after 5 seconds
+        const toastTimeout = setTimeout(() => {
+            toast.classList.add('translate-y-12', 'opacity-0');
+        }, 5000);
+        
+        // Clear timeout if toast is closed manually
+        closeToast.onclick = () => {
+            clearTimeout(toastTimeout);
+            toast.classList.add('translate-y-12', 'opacity-0');
+        };
+    }
+
+    function checkEmptyState() {
+        if (userImages.length === 0) {
+            emptyState.classList.remove('hidden');
+            galleryGrid.classList.add('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+            galleryGrid.classList.remove('hidden');
+        }
+    }
+
+    function animateGalleryItems() {
+        const galleryItems = document.querySelectorAll('.stagger-item');
+        
+        galleryItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('animate-scale-in');
+            }, 50 * index);
+        });
+    }
+
+    function showLoadingState() {
+        loadingState.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        galleryGrid.classList.add('hidden');
+    }
+
+    function hideLoadingState() {
+        loadingState.classList.add('hidden');
+    }
+
+    function initResizeObserver() {
+        if (resizeObserver) {
+            resizeObserver.disconnect();
+        }
+        
+        resizeObserver = new ResizeObserver(entries => {
+            updateMasonryLayout();
+        });
+        
+        // Observe the gallery container
+        resizeObserver.observe(galleryGrid);
+    }
+
+    function updateMasonryLayout() {
+        // This function will be called when images load or when the window resizes
+        // Force a reflow to recalculate the grid layout
+        galleryGrid.style.display = 'none';
+        void galleryGrid.offsetHeight; // Force reflow
+        galleryGrid.style.display = '';
+    }
+
+    function handleTiltEffect(e) {
+        const cards = document.querySelectorAll('.tilt-card');
+        
+        cards.forEach(card => {
+            // Get the card's position relative to the viewport
+            const rect = card.getBoundingClientRect();
+            
+            // Calculate the center of the card
+            const cardCenterX = rect.left + rect.width / 2;
+            const cardCenterY = rect.top + rect.height / 2;
+            
+            // Calculate the distance from the mouse to the center of the card
+            const distanceX = e.clientX - cardCenterX;
+            const distanceY = e.clientY - cardCenterY;
+            
+            // Limit the tilt effect to cards near the mouse
+            const proximityThreshold = 300; // pixels
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            
+            if (distance < proximityThreshold) {
+                // Calculate the tilt amount based on the distance from the mouse to the card center
+                // The closer the mouse, the stronger the effect
+                const strength = 1 - distance / proximityThreshold;
+                const tiltX = distanceY / 25 * strength;
+                const tiltY = -distanceX / 25 * strength;
+                
+                // Apply the tilt effect
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
+            } else {
+                // Reset the transform for cards that are far from the mouse
+                card.style.transform = '';
+            }
+        });
+    }
+
+    // Listen for window resize events to update the masonry layout
+    window.addEventListener('resize', debounce(updateMasonryLayout, 200));
+
+    // Debounce function to limit the rate at which a function can fire
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+});
     </script>
 </body>
 </html>
