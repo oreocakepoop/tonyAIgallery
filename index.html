@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony AI Gallery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Minimalist two-color palette
+                        primary: '#000000',    // Black - PRIMARY BACKGROUND
+                        secondary: '#ECDFCC',  // Cream - TEXT AND ACCENTS
+                        // Opacity variants for secondary color
+                        'secondary-80': 'rgba(236, 223, 204, 0.8)',
+                        'secondary-60': 'rgba(236, 223, 204, 0.6)',
+                        'secondary-40': 'rgba(236, 223, 204, 0.4)',
+                        'secondary-20': 'rgba(236, 223, 204, 0.2)',
+                        'secondary-10': 'rgba(236, 223, 204, 0.1)',
+                        'secondary-5': 'rgba(236, 223, 204, 0.05)'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                        'scale-in': 'scaleIn 0.4s ease-out forwards',
+                        'bounce-in': 'bounceIn 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '40%': { transform: 'scale(1.1)' },
+                            '80%': { transform: 'scale(0.9)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(236, 223, 204, 0.3)' },
+                            '100%': { boxShadow: '0 0 20px rgba(236, 223, 204, 0.6), 0 0 30px rgba(236, 223, 204, 0.4)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles with black and burgundy color scheme */
+        body {
+            background-color: #000000;
+            color: #5d1414;
+        }
+    
+        /* Masonry grid with minimal gap */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 20px;
+            grid-gap: 1px;
+        }
+    
+        .masonry-item {
+            grid-row-end: span var(--row-span, 50);
+        }
+    
+        /* Gallery item styling - optimized for image display */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+            transition: transform 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67), 
+                        box-shadow 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            height: 100%;
+            background-color: #000000;
+            box-shadow: inset 0 0 0 1px rgba(93, 20, 20, 0.05);
+        }
+    
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    
+        .gallery-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+    
+        /* Image overlay with burgundy accents */
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, 
+                        rgba(0, 0, 0, 0.95) 0%, 
+                        rgba(0, 0, 0, 0.8) 30%, 
+                        rgba(0, 0, 0, 0.5) 60%, 
+                        rgba(0, 0, 0, 0) 100%);
+            padding: 1.5rem 1rem 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    
+        .gallery-item:hover .image-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        /* Custom scrollbar with burgundy accents */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+    
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(93, 20, 20, 0.1);
+            border-radius: 3px;
+        }
+    
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(93, 20, 20, 0.4);
+            border-radius: 3px;
+        }
+    
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(93, 20, 20, 0.6);
+        }
+    
+        /* Backdrop blur effect */
+        .backdrop-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    
+        /* Glass morphism effect with burgundy border */
+        .glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(93, 20, 20, 0.1);
+        }
+    
+        /* Upload area animation with burgundy pulsing */
+        .pulse-border {
+            animation: pulse-border 2s infinite;
+        }
+    
+        @keyframes pulse-border {
+            0%, 100% {
+                border-color: rgba(93, 20, 20, 0.3);
+            }
+            50% {
+                border-color: rgba(93, 20, 20, 0.6);
+            }
+        }
+    
+        /* Staggered animation for gallery items */
+        .stagger-item {
+            opacity: 0;
+        }
+    
+        /* Quality bar indicator */
+        .quality-bar {
+            height: 4px;
+            transition: width 0.3s ease;
+        }
+    
+        /* Tooltip with burgundy accents */
+        .tooltip {
+            position: relative;
+        }
+    
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: #5d1414;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.3rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(93, 20, 20, 0.2);
+        }
+    
+        .tooltip:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+            margin-bottom: -5px;
+            z-index: 10;
+        }
+    
+        /* 3D Tilt effect - preserved for interactive experience */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+    
+        /* Gradient background - subtle black variation */
+        .animated-gradient {
+            background: linear-gradient(-45deg, #000000, #0a0a0a, #0a0a0a, #000000);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+        }
+    
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    
+        /* Image shine effect on hover - with burgundy tint */
+        .image-shine {
+            position: relative;
+            overflow: hidden;
+        }
+    
+        .image-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(93, 20, 20, 0.15);
+            transform: rotate(30deg);
+            transition: transform 0.7s ease-in-out;
+        }
+    
+        .gallery-item:hover .image-shine::after {
+            transform: rotate(30deg) translateX(300%);
+        }
+    
+        /* Neon text effect with burgundy glow */
+        .neon-text {
+            text-shadow: 0 0 5px rgba(93, 20, 20, 0.7), 
+                         0 0 10px rgba(93, 20, 20, 0.5), 
+                         0 0 15px rgba(93, 20, 20, 0.3);
+        }
+    
+        /* Particle animation for logo with burgundy color */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(93, 20, 20, 0.8);
+            animation: particle-float 3s infinite ease-in-out;
+            opacity: 0.6;
+        }
+    
+        @keyframes particle-float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-10px) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+    
+        /* Button styles with burgundy on black for better visibility */
+        .btn-primary, 
+        #uploadBtn, 
+        #emptyStateUploadBtn, 
+        #saveImageBtn {
+            background-color: #5d1414;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            border: none;
+        }
+    
+        .btn-primary:hover,
+        #uploadBtn:hover, 
+        #emptyStateUploadBtn:hover, 
+        #saveImageBtn:hover {
+            background-color: rgba(93, 20, 20, 0.9);
+            box-shadow: 0 4px 12px rgba(93, 20, 20, 0.3);
+        }
+    
+        /* Secondary button style with burgundy accents */
+        .btn-secondary,
+        #cancelUploadBtn {
+            background-color: transparent;
+            border: 1px solid rgba(93, 20, 20, 0.3);
+            color: #5d1414;
+        }
+    
+        .btn-secondary:hover,
+        #cancelUploadBtn:hover {
+            background-color: rgba(93, 20, 20, 0.1);
+            border-color: rgba(93, 20, 20, 0.5);
+        }
+    
+        /* Form element styles with burgundy accents */
+        input, textarea, select {
+            background-color: rgba(93, 20, 20, 0.05);
+            border: 1px solid rgba(93, 20, 20, 0.2);
+            color: #5d1414;
+        }
+    
+        input:focus, textarea:focus, select:focus {
+            border-color: rgba(93, 20, 20, 0.5);
+            box-shadow: 0 0 0 2px rgba(93, 20, 20, 0.1);
+            outline: none;
+        }
+    
+        /* Header styling */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(93, 20, 20, 0.1);
+        }
+    
+        /* Modal styling */
+        #modalContent {
+            background-color: #000000;
+            border: 1px solid rgba(93, 20, 20, 0.1);
+        }
+    
+        /* Quality option styling */
+        .quality-option {
+            color: #5d1414;
+        }
+        
+        .quality-option.quality-active {
+            background-color: rgba(93, 20, 20, 0.15);
+        }
+    
+        /* Text color overrides for burgundy */
+        .text-white, .text-gray-300, .text-gray-400 {
+            color: #5d1414 !important;
+        }
+        
+        .text-white\/70, .text-white\/60, .text-gray-500 {
+            color: rgba(93, 20, 20, 0.7) !important;
+        }
+    
+        /* Border colors */
+        .border-dark-600, .border-dark-700, .border-gray-700, .border-gray-800 {
+            border-color: rgba(93, 20, 20, 0.1) !important;
+        }
+    
+        /* Background colors */
+        .bg-dark-700, .bg-dark-800, .bg-dark-900, .bg-gray-800, .bg-gray-900 {
+            background-color: #000000 !important;
+        }
+    
+        /* Gradients */
+        .bg-gradient-to-r {
+            background-image: linear-gradient(to right, #5d1414, rgba(93, 20, 20, 0.7)) !important;
+        }
+    
+        /* Quality indicators - with burgundy semantic colors */
+        .quality-option[data-quality="high"] .quality-bar {
+            background-color: rgba(93, 20, 20, 0.9) !important;
+        }
+        
+        .quality-option[data-quality="medium"] .quality-bar {
+            background-color: rgba(93, 20, 20, 0.6) !important;
+        }
+        
+        .quality-option[data-quality="low"] .quality-bar {
+            background-color: rgba(93, 20, 20, 0.3) !important;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-white animated-gradient min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-blur border-b border-accent-purple/20 px-4 sm:px-6 py-3">
+        <div class="flex justify-between items-center max-w-[2000px] mx-auto">
+            <div class="flex items-center gap-3 relative group">
+                <!-- Animated logo particles -->
+                <div class="absolute -inset-2 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div class="particle w-2 h-2 absolute top-0 left-1" style="animation-delay: 0s;"></div>
+                    <div class="particle w-1.5 h-1.5 absolute top-2 right-1" style="animation-delay: 0.5s;"></div>
+                    <div class="particle w-1 h-1 absolute bottom-1 left-3" style="animation-delay: 1s;"></div>
+                    <div class="particle w-2 h-2 absolute bottom-2 right-2" style="animation-delay: 1.5s;"></div>
+                </div>
+                
+                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold relative overflow-hidden animate-glow">
+                    <div class="absolute inset-0 bg-gradient-to-br from-accent-purple via-accent-pink to-accent-blue animate-spin-slow"></div>
+                    <span class="relative z-10 text-white text-lg">T</span>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-purple to-accent-pink neon-text">Tony AI</span>
+                    <span class="text-xs ml-1 bg-dark-700 px-2 py-0.5 rounded-full text-white/70 uppercase tracking-wider">Gallery</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 text-sm text-white/70">
+                    <div class="w-2 h-2 rounded-full bg-accent-pink"></div>
+                    <span>Welcome to my Gallery!</span>
+                </div>
+                <button id="uploadBtn" class="relative overflow-hidden bg-[#ECDFCC] hover:bg-[#ECDFCC]/90 text-black px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-[#ECDFCC]/30 group">
+                    <i class="fas fa-cloud-upload-alt group-hover:animate-bounce"></i>
+                    <span>Upload</span>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-blue opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-purple"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-[2000px] mx-auto px-4 sm:px-6 py-6">
+        <!-- Gallery Grid -->
+        <div id="galleryGrid" class="masonry-grid"></div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20">
+            <div class="animate-float text-7xl mb-6 text-white/50 inline-block relative">
+                <i class="far fa-images"></i>
+                <div class="absolute top-0 right-0 w-4 h-4 bg-accent-purple rounded-full animate-pulse"></div>
+            </div>
+            <h3 class="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-accent-purple to-accent-pink neon-text">No images yet</h3>
+            <p class="text-white/70 mb-8 max-w-md mx-auto">Upload your first image to get started with your Tony AI Gallery collection.</p>
+            <button id="emptyStateUploadBtn" class="bg-gradient-to-r from-accent-purple to-accent-pink hover:from-accent-purple/90 hover:to-accent-pink/90 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-accent-purple/30 mx-auto group">
+                <i class="fas fa-cloud-upload-alt group-hover:animate-bounce"></i>
+                <span>Upload an image</span>
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-20 hidden">
+            <div class="inline-block mb-6 relative">
+                <svg class="w-16 h-16 text-accent-purple" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="280" class="animate-[spin_1.5s_ease-in-out_infinite]"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center text-accent-pink animate-pulse">
+                    <i class="fas fa-robot text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-accent-purple to-accent-pink neon-text">Loading your gallery</h3>
+            <p class="text-white/70 max-w-md mx-auto">Please wait while we retrieve your images...</p>
+        </div>
+    </main>
+
+    <!-- Upload Modal with Enhanced Animation -->
+    <div id="uploadModal" class="fixed inset-0 bg-dark-900/80 backdrop-blur flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="glass rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden transform translate-y-8 transition-transform duration-500 mx-4 opacity-0 border border-accent-purple/30" id="modalContent">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-5 border-b border-dark-600">
+                <h3 class="text-xl font-bold flex items-center gap-3 bg-clip-text text-transparent bg-gradient-to-r from-accent-purple to-accent-pink neon-text">
+                    <i class="fas fa-cloud-upload-alt text-accent-purple"></i>
+                    <span>Upload Image</span>
+                </h3>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-white transition-colors w-8 h-8 rounded-full flex items-center justify-center hover:bg-dark-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-5 custom-scrollbar overflow-y-auto max-h-[calc(90vh-140px)]">
+                <!-- Upload Area -->
+                <div id="uploadArea" class="border-2 border-dashed border-accent-purple/30 pulse-border rounded-xl p-8 text-center cursor-pointer hover:border-accent-pink/50 transition-colors group">
+                    <div class="text-5xl mb-4 text-gray-500 transition-transform duration-300 transform group-hover:scale-110 group-hover:text-accent-purple">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p class="text-gray-300 mb-2">Drag and drop your image here</p>
+                    <p class="text-gray-500 text-sm">or click to browse files</p>
+                    <input type="file" id="fileInput" accept="image/*" class="hidden">
+                </div>
+                
+                <!-- Preview Area (hidden by default) -->
+                <div id="uploadPreview" class="mt-6 hidden">
+                    <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 shadow-lg image-shine">
+                        <img id="previewImage" class="w-full h-auto" src="" alt="Preview">
+                    </div>
+                    
+                    <div class="mb-5">
+                        <label for="imageCaption" class="block text-sm text-gray-300 mb-2 font-medium">Image Caption</label>
+                        <div class="relative">
+                            <i class="fas fa-font absolute left-3 top-3 text-gray-500"></i>
+                            <input type="text" id="imageCaption" class="w-full bg-dark-800/50 border border-dark-600 rounded-lg py-2.5 pl-10 pr-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple focus:border-transparent transition-all duration-300" placeholder="Add a caption for your image">
+                        </div>
+                    </div>
+
+                    <!-- Image Quality Options with Visual Indicator -->
+                    <div class="mb-5">
+                        <label class="block text-sm text-gray-300 mb-2 font-medium">Image Quality</label>
+                        <div class="bg-dark-800/50 rounded-lg p-1 flex">
+                            <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="high">
+                                <div class="font-medium">High</div>
+                                <div class="text-xs text-gray-400 mt-1">Original Size</div>
+                                <div class="absolute bottom-0 left-0 right-0 quality-bar bg-green-500" style="width: 100%;"></div>
+                            </button>
+                            <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center quality-active bg-dark-700" data-quality="medium">
+                                <div class="font-medium">Medium</div>
+                                <div class="text-xs text-gray-400 mt-1">Balanced</div>
+                                <div class="absolute bottom-0 left-0 right-0 quality-bar bg-accent-blue" style="width: 67%;"></div>
+                            </button>
+                            <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="low">
+                                <div class="font-medium">Low</div>
+                                <div class="text-xs text-gray-400 mt-1">Save Space</div>
+                                <div class="absolute bottom-0 left-0 right-0 quality-bar bg-yellow-500" style="width: 33%;"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-3 p-5 border-t border-dark-600">
+                <button id="cancelUploadBtn" class="px-4 py-2.5 rounded-lg border border-dark-600 text-gray-300 hover:bg-dark-700 transition-all duration-300 text-sm flex items-center gap-2">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel</span>
+                </button>
+                <button id="saveImageBtn" class="px-4 py-2.5 rounded-lg bg-gradient-to-r from-accent-purple to-accent-pink hover:from-accent-purple/90 hover:to-accent-pink/90 text-white transition-all duration-300 text-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-700 shadow-lg hover:shadow-accent-purple/30" disabled>
+                    <i class="fas fa-save"></i>
+                    <span id="saveButtonText">Save Image</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 glass rounded-lg shadow-xl z-50 transform translate-y-12 opacity-0 transition-all duration-300 max-w-sm border border-accent-purple/20">
+        <div class="flex items-center gap-3 p-4">
+            <div id="toastIcon" class="text-accent-purple text-xl">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div id="toastMessage" class="flex-1">Image uploaded successfully!</div>
+            <button class="text-gray-400 hover:text-white transition-colors" id="closeToast">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const galleryGrid = document.getElementById('galleryGrid');
+            const emptyState = document.getElementById('emptyState');
+            const loadingState = document.getElementById('loadingState');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const emptyStateUploadBtn = document.getElementById('emptyStateUploadBtn');
+            const uploadModal = document.getElementById('uploadModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const uploadPreview = document.getElementById('uploadPreview');
+            const saveImageBtn = document.getElementById('saveImageBtn');
+            const saveButtonText = document.getElementById('saveButtonText');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            const closeToast = document.getElementById('closeToast');
+
+            // Database variables
+            const DB_NAME = 'tony_ai_gallery_db';
+            const DB_VERSION = 1;
+            const STORE_NAME = 'images';
+            let db;
+
+            // State
+            let uploadedFile = null;
+            let userImages = [];
+            let currentImageQuality = 'medium'; // default quality
+            let resizeObserver;
+
+            // Initialize the app
+            initializeApp();
+
+            // Set up event listeners
+            setupEventListeners();
+
+            // Functions
+            async function initializeApp() {
+                showLoadingState();
+                
+                // Initialize IndexedDB
+                await initIndexedDB();
+                
+                // Load user images from IndexedDB
+                await loadUserImages();
+                
+                // Hide loading state
+                hideLoadingState();
+                
+                // Check if we need to show empty state
+                checkEmptyState();
+                
+                // Initialize the resize observer for masonry layout
+                initResizeObserver();
+            }
+
+            function setupEventListeners() {
+                // Upload button click
+                uploadBtn.addEventListener('click', openUploadModal);
+                emptyStateUploadBtn.addEventListener('click', openUploadModal);
+                
+                // Close modal
+                closeModalBtn.addEventListener('click', closeUploadModal);
+                cancelUploadBtn.addEventListener('click', closeUploadModal);
+                
+                // Handle file selection
+                uploadArea.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', handleFileSelect);
+                
+                // Drag and drop
+                uploadArea.addEventListener('dragover', handleDragOver);
+                uploadArea.addEventListener('dragleave', handleDragLeave);
+                uploadArea.addEventListener('drop', handleDrop);
+                
+                // Save image
+                saveImageBtn.addEventListener('click', saveImage);
+                
+                // Remove image functionality
+                galleryGrid.addEventListener('click', function(e) {
+                    const removeBtn = e.target.closest('[data-action="remove"]');
+                    if (removeBtn) {
+                        const galleryItem = removeBtn.closest('.masonry-item');
+                        if (galleryItem) {
+                            const index = parseInt(galleryItem.dataset.index);
+                            removeImage(index);
+                        }
+                    }
+                });
+
+                // Close toast
+                closeToast.addEventListener('click', () => {
+                    toast.classList.add('translate-y-12', 'opacity-0');
+                });
+
+                // Quality options
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.quality-option')) {
+                        const option = e.target.closest('.quality-option');
+                        
+                        // Update UI
+                        document.querySelectorAll('.quality-option').forEach(opt => {
+                            opt.classList.remove('bg-dark-700', 'quality-active');
+                        });
+                        option.classList.add('bg-dark-700', 'quality-active');
+                        
+                        // Set quality
+                        currentImageQuality = option.dataset.quality;
+                    }
+                });
+
+                // Add 3D tilt effect to gallery items
+                document.addEventListener('mousemove', handleTiltEffect);
+            }
+
+            async function initIndexedDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+                    
+                    request.onerror = (event) => {
+                        console.error('IndexedDB error:', event.target.error);
+                        showToast('Error accessing browser storage', 'error');
+                        reject(event.target.error);
+                    };
+                    
+                    request.onsuccess = (event) => {
+                        db = event.target.result;
+                        console.log('IndexedDB connected');
+                        resolve();
+                    };
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        
+                        // Create an object store for the images
+                        if (!db.objectStoreNames.contains(STORE_NAME)) {
+                            const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                        }
+                    };
+                });
+            }
+
+            async function loadUserImages() {
+                return new Promise((resolve, reject) => {
+                    if (!db) {
+                        console.error('Database not initialized');
+                        resolve([]);
+                        return;
+                    }
+                    
+                    const transaction = db.transaction([STORE_NAME], 'readonly');
+                    const store = transaction.objectStore(STORE_NAME);
+                    const getAllRequest = store.getAll();
+                    
+                    getAllRequest.onsuccess = (event) => {
+                        userImages = event.target.result || [];
+                        // Sort by timestamp, newest first
+                        userImages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        renderUserImages();
+                        resolve(userImages);
+                    };
+                    
+                    getAllRequest.onerror = (event) => {
+                        console.error('Error loading images:', event.target.error);
+                        showToast('Error loading your images', 'error');
+                        resolve([]);
+                    };
+                });
+            }
+
+            function renderUserImages() {
+                // Clear gallery grid
+                galleryGrid.innerHTML = '';
+                
+                // Render user images if available
+                if (userImages.length > 0) {
+                    userImages.forEach((image, index) => {
+                        // Create a gallery item with proper sizing based on image dimensions
+                        createGalleryItem(image, index).then(galleryItem => {
+                            galleryGrid.appendChild(galleryItem);
+                            
+                            // Add staggered animation class
+                            galleryItem.classList.add('stagger-item');
+                            
+                            // Trigger layout calculation
+                            updateMasonryLayout();
+                        });
+                    });
+                    
+                    // Animate items with staggered delay
+                    setTimeout(() => {
+                        animateGalleryItems();
+                    }, 100);
+                }
+                
+                // Update empty state visibility
+                checkEmptyState();
+            }
+
+            async function createGalleryItem(image, index) {
+    return new Promise((resolve) => {
+        // Create container elements
+        const masonryItem = document.createElement('div');
+        masonryItem.className = 'masonry-item';
+        masonryItem.dataset.index = index;
+        
+        // Calculate actual aspect ratio from the image
+        const img = new Image();
+        img.onload = function() {
+            const aspectRatio = this.naturalHeight / this.naturalWidth;
+            
+            // Calculate row span based on actual aspect ratio
+            const rowSpan = Math.ceil(aspectRatio * 15);
+            masonryItem.style.setProperty('--row-span', rowSpan);
+            
+            // Create gallery item with proper aspect ratio
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item tilt-card';
+            
+            // Create image element
+            const imgElement = document.createElement('img');
+            imgElement.src = image.dataUrl;
+            imgElement.alt = image.caption;
+            
+            // Create overlay with caption and remove button
+            const overlay = document.createElement('div');
+            overlay.className = 'image-overlay';
+            overlay.innerHTML = `
+                <div class="flex justify-between items-end w-full">
+                    <p class="text-sm text-white font-medium flex-1">${image.caption}</p>
+                    <button class="text-white/80 hover:text-white w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 rounded-full transition-colors" 
+                            data-action="remove" 
+                            data-tooltip="Remove image">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2 mt-2 text-xs text-white/60">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>${formatDate(image.timestamp)}</span>
+                    ${image.quality ? `
+                        <span class="ml-auto flex items-center gap-1 ${getQualityColor(image.quality)}">
+                            <i class="fas ${getQualityIcon(image.quality)}"></i>
+                            ${capitalizeFirst(image.quality)} quality
+                        </span>
+                    ` : ''}
+                </div>
+                <div class="mt-2 text-xs text-white/60 flex items-center gap-2">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <span>${Math.round(aspectRatio * 100) / 100} aspect ratio</span>
+                </div>
+            `;
+            
+            // Assemble the gallery item
+            galleryItem.appendChild(imgElement);
+            galleryItem.appendChild(overlay);
+            masonryItem.appendChild(galleryItem);
+            
+            // Add hover effects
+            addHoverEffects(galleryItem);
+            
+            // Update masonry layout
+            updateMasonryLayout();
+            
+            resolve(masonryItem);
+        };
+        
+        // Set image source to trigger load event
+        img.src = image.dataUrl;
+        
+        // Handle load errors
+        img.onerror = function() {
+            console.error('Error loading image for gallery item');
+            
+            // Create a fallback item with default aspect ratio
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item tilt-card bg-dark-800 h-full flex items-center justify-center';
+            galleryItem.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-exclamation-circle text-accent-pink text-3xl mb-2"></i>
+                    <p class="text-white/70">Error loading image</p>
+                </div>
+            `;
+            
+            masonryItem.style.setProperty('--row-span', 20);
+            masonryItem.appendChild(galleryItem);
+            
+            resolve(masonryItem);
+        };
+    });
+}
+                    
+            function addHoverEffects(galleryItem) {
+                // Add interactive hover effects
+                galleryItem.addEventListener('mouseenter', function() {
+                    // Create floating particles
+                    for (let i = 0; i < 3; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'absolute w-1 h-1 rounded-full bg-accent-purple/50';
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.top = `${Math.random() * 100}%`;
+                        particle.style.animation = `float ${2 + Math.random() * 2}s ease-in-out infinite`;
+                        particle.style.animationDelay = `${Math.random() * 1}s`;
+                        
+                        this.appendChild(particle);
+                        
+                        // Remove particles when animation ends
+                        setTimeout(() => {
+                            if (particle.parentNode === this) {
+                                this.removeChild(particle);
+                            }
+                        }, 4000);
+                    }
+                });
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString(undefined, { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            }
+
+            function getQualityColor(quality) {
+                switch (quality) {
+                    case 'high': return 'text-green-400';
+                    case 'medium': return 'text-accent-blue';
+                    case 'low': return 'text-yellow-500';
+                    default: return 'text-gray-400';
+                }
+            }
+
+            function getQualityIcon(quality) {
+                switch (quality) {
+                    case 'high': return 'fa-crown';
+                    case 'medium': return 'fa-badge-check';
+                    case 'low': return 'fa-compress';
+                    default: return 'fa-image';
+                }
+            }
+
+            function capitalizeFirst(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            function openUploadModal() {
+                // First make the modal container visible but with opacity 0
+                uploadModal.classList.remove('pointer-events-none');
+                
+                // Trigger reflow
+                void uploadModal.offsetWidth;
+                
+                // Then animate in the opacity
+                uploadModal.classList.remove('opacity-0');
+                
+                // Finally animate in the modal content with a slight delay
+                setTimeout(() => {
+                    modalContent.classList.remove('opacity-0', 'translate-y-8');
+                    modalContent.classList.add('animate-bounce-in');
+                }, 100);
+                
+                resetUploadForm();
+            }
+
+            function closeUploadModal() {
+                // First animate out the modal content
+                modalContent.classList.remove('animate-bounce-in');
+                modalContent.classList.add('opacity-0', 'translate-y-8');
+                
+                // Then animate out the modal overlay
+                setTimeout(() => {
+                    uploadModal.classList.add('opacity-0');
+                    
+                    // Finally hide the modal completely
+                    setTimeout(() => {
+                        uploadModal.classList.add('pointer-events-none');
+                    }, 500);
+                }, 200);
+                
+                resetUploadForm();
+            }
+
+            function resetUploadForm() {
+                uploadedFile = null;
+                fileInput.value = '';
+                uploadPreview.classList.add('hidden');
+                saveImageBtn.disabled = true;
+                saveButtonText.textContent = 'Save Image';
+                
+                // Reset quality selector to medium
+                document.querySelectorAll('.quality-option').forEach(option => {
+                    option.classList.remove('bg-dark-700', 'quality-active');
+                    if (option.dataset.quality === 'medium') {
+                        option.classList.add('bg-dark-700', 'quality-active');
+                    }
+                });
+                currentImageQuality = 'medium';
+            }
+
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    processFile(file);
+                }
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                uploadArea.classList.add('border-accent-pink/50');
+                uploadArea.classList.remove('border-accent-purple/30', 'pulse-border');
+            }
+
+            function handleDragLeave() {
+                uploadArea.classList.remove('border-accent-pink/50');
+                uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('border-accent-pink/50');
+                uploadArea.classList.add('border-accent-purple/30', 'pulse-border');
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    processFile(file);
+                } else {
+                    showToast('Please upload an image file', 'error');
+                }
+            }
+
+            function processFile(file) {
+                uploadedFile = file;
+                
+                // Show a loading indicator
+                uploadPreview.classList.remove('hidden');
+                uploadPreview.innerHTML = `
+                    <div class="flex justify-center items-center py-12">
+                        <div class="relative">
+                            <svg class="w-12 h-12 text-accent-purple animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-image text-accent-pink text-sm animate-pulse"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Create a preview with the loaded image
+                    createImagePreview(e.target.result, file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function createImagePreview(dataUrl, fileName) {
+                // Create an image element to get dimensions
+                const img = new Image();
+                img.onload = function() {
+                    // Calculate dimensions for display
+                    const width = this.naturalWidth;
+                    const height = this.naturalHeight;
+                    const aspectRatio = height / width;
+                    const fileSize = Math.round(dataUrl.length / 1024);
+                    
+                    // Extract file name without extension
+                    const nameWithoutExt = fileName ? fileName.replace(/\.[^/.]+$/, "") : "Image";
+                    
+                    // Recreate the preview area with the image and dimensions
+                    uploadPreview.innerHTML = `
+                        <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 shadow-lg image-shine relative group">
+                            <img id="previewImage" class="w-full h-auto" src="${dataUrl}" alt="Preview">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                                                <div class="flex flex-wrap items-center gap-3 text-xs text-gray-400 mb-5 bg-dark-800/30 p-2 rounded-lg">
+                            <span class="flex items-center gap-1" title="Image dimensions">
+                                <i class="fas fa-ruler-combined"></i> ${width} × ${height}px
+                            </span>
+                            <span class="flex items-center gap-1" title="File size">
+                                <i class="fas fa-file-image"></i> ${fileSize} KB
+                            </span>
+                            <span class="flex items-center gap-1" title="Aspect ratio">
+                                <i class="fas fa-expand-arrows-alt"></i> ${aspectRatio.toFixed(2)}
+                            </span>
+                            <div class="w-full h-px bg-dark-700 my-1"></div>
+                            <span class="flex items-center gap-1 text-accent-purple">
+                                <i class="fas fa-info-circle"></i> Original aspect ratio will be preserved
+                            </span>
+                        </div>
+                        <div class="mb-5">
+                            <label for="imageCaption" class="block text-sm text-gray-300 mb-2 font-medium">Image Caption</label>
+                            <div class="relative">
+                                <i class="fas fa-font absolute left-3 top-3 text-gray-500"></i>
+                                <input type="text" id="imageCaption" class="w-full bg-dark-800/50 border border-dark-600 rounded-lg py-2.5 pl-10 pr-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple focus:border-transparent transition-all duration-300" 
+                                    placeholder="Add a caption for your image" 
+                                    value="${nameWithoutExt.replace(/[_-]/g, ' ')}">
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <label class="block text-sm text-gray-300 mb-2 font-medium">Image Quality</label>
+                            <div class="bg-dark-800/50 rounded-lg p-1 flex">
+                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="high">
+                                    <div class="font-medium">High</div>
+                                    <div class="text-xs text-gray-400 mt-1">Original Size</div>
+                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-green-500" style="width: 100%;"></div>
+                                </button>
+                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center quality-active bg-dark-700" data-quality="medium">
+                                    <div class="font-medium">Medium</div>
+                                    <div class="text-xs text-gray-400 mt-1">Balanced</div>
+                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-accent-blue" style="width: 67%;"></div>
+                                </button>
+                                <button class="quality-option flex-1 py-2 rounded-md text-sm relative transition-all duration-300 text-center" data-quality="low">
+                                    <div class="font-medium">Low</div>
+                                    <div class="text-xs text-gray-400 mt-1">Save Space</div>
+                                    <div class="absolute bottom-0 left-0 right-0 quality-bar bg-yellow-500" style="width: 33%;"></div>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Reassign DOM elements that were recreated
+                    const previewImage = document.getElementById('previewImage');
+                    const imageCaption = document.getElementById('imageCaption');
+                    
+                    // Auto-focus and select text in the caption field for better UX
+                    setTimeout(() => {
+                        imageCaption.focus();
+                        imageCaption.select();
+                    }, 100);
+                    
+                    // Enable save button since we've pre-filled the caption
+                    saveImageBtn.disabled = !imageCaption.value.trim();
+                    
+                    // Reattach event listener for caption input
+                    imageCaption.addEventListener('input', () => {
+                        saveImageBtn.disabled = !imageCaption.value.trim();
+                    });
+                    
+                    // Add interactive animation to the preview
+                    addPreviewInteractivity(previewImage);
+                };
+                
+                // Handle image load error
+                img.onerror = function() {
+                    uploadPreview.innerHTML = `
+                        <div class="rounded-xl overflow-hidden mb-5 bg-dark-800 p-8 text-center">
+                            <div class="text-accent-pink text-4xl mb-3">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <p class="text-white mb-2">Error loading image</p>
+                            <p class="text-sm text-gray-400">The selected file could not be processed</p>
+                        </div>
+                        
+                        <button class="w-full py-2.5 rounded-lg bg-dark-700 hover:bg-dark-600 text-white transition-all duration-300 text-sm flex items-center justify-center gap-2 mt-3">
+                            <i class="fas fa-redo-alt"></i>
+                            <span>Try again</span>
+                        </button>
+                    `;
+                    
+                    // Add event listener to try again button
+                    const tryAgainBtn = uploadPreview.querySelector('button');
+                    tryAgainBtn.addEventListener('click', () => {
+                        uploadPreview.classList.add('hidden');
+                        fileInput.click();
+                    });
+                };
+                
+                img.src = dataUrl;
+            }
+
+            function addPreviewInteractivity(previewImg) {
+                // Add subtle hover effect to preview image
+                previewImg.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    const y = (e.clientY - rect.top) / rect.height;
+                    
+                    // Apply a subtle transform for a 3D effect
+                    this.style.transform = `perspective(1000px) rotateX(${(y - 0.5) * -5}deg) rotateY(${(x - 0.5) * 5}deg) scale(1.02)`;
+                });
+                
+                previewImg.addEventListener('mouseleave', function() {
+                    // Reset transform
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            }
+
+            async function saveImage() {
+                if (!uploadedFile) return;
+                
+                const imageCaption = document.getElementById('imageCaption');
+                const caption = imageCaption.value.trim() || 'Untitled image';
+                const previewImage = document.getElementById('previewImage');
+                
+                // Show processing state with animated loader
+                saveImageBtn.disabled = true;
+                saveImageBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                `;
+                
+                try {
+                    // Compress image based on selected quality while preserving aspect ratio
+                    const compressedImageData = await compressImage(previewImage.src, currentImageQuality);
+                    
+                    // Create image data object
+                    const imageData = {
+                        dataUrl: compressedImageData,
+                        caption: caption,
+                        timestamp: new Date().toISOString(),
+                        quality: currentImageQuality
+                    };
+                    
+                    // Save to IndexedDB
+                    await addImageToDb(imageData);
+                    
+                    // Close modal with success animation
+                    closeUploadModalWithSuccess();
+                    
+                    // Reload images to get the updated list with IDs
+                    await loadUserImages();
+                    
+                    // Show success toast
+                    showToast('Image uploaded successfully!', 'success');
+                } catch (error) {
+                    console.error('Error saving image:', error);
+                    
+                    showToast('Error saving image: ' + error.message, 'error');
+                    
+                    // Reset button state
+                    saveImageBtn.disabled = false;
+                    saveImageBtn.innerHTML = `
+                        <i class="fas fa-save"></i>
+                        <span>Save Image</span>
+                    `;
+                }
+            }
+
+            function closeUploadModalWithSuccess() {
+                // Add success animation to modal content
+                modalContent.classList.add('animate-pulse-slow');
+                modalContent.style.borderColor = '#10B981';
+                
+                // Add checkmark animation
+                const successOverlay = document.createElement('div');
+                successOverlay.className = 'absolute inset-0 flex items-center justify-center bg-dark-900/30 backdrop-blur z-10 animate-fade-in';
+                successOverlay.innerHTML = `
+                    <div class="bg-gradient-to-r from-green-500 to-accent-teal rounded-full p-4 transform scale-0 animate-scale-in">
+                        <i class="fas fa-check text-white text-2xl"></i>
+                    </div>
+                `;
+                modalContent.appendChild(successOverlay);
+                
+                // Add particle effects
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        if (successOverlay.parentNode) {
+                            const particle = document.createElement('div');
+                            particle.className = 'absolute w-1.5 h-1.5 rounded-full';
+                            particle.style.background = `rgb(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255)`;
+                            particle.style.left = '50%';
+                            particle.style.top = '50%';
+                            particle.style.transform = 'translate(-50%, -50%)';
+                            
+                            // Randomize the particle animation
+                            const angle = Math.random() * Math.PI * 2;
+                            const distance = 50 + Math.random() * 100;
+                            const duration = 0.5 + Math.random() * 1;
+                            
+                            particle.animate([
+                                { transform: 'translate(-50%, -50%)', opacity: 1 },
+                                { 
+                                    transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`, 
+                                    opacity: 0 
+                                }
+                            ], {
+                                duration: duration * 1000,
+                                easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)'
+                            });
+                            
+                            successOverlay.appendChild(particle);
+                            
+                            // Remove particle after animation completes
+                            setTimeout(() => {
+                                if (particle.parentNode) {
+                                    particle.parentNode.removeChild(particle);
+                                }
+                            }, duration * 1000);
+                        }
+                    }, i * 50);
+                }
+                
+                // Close the modal after success animation
+                setTimeout(() => {
+                    closeUploadModal();
+                    setTimeout(() => {
+                        modalContent.classList.remove('animate-pulse-slow');
+                        modalContent.style.borderColor = '';
+                        if (successOverlay.parentNode === modalContent) {
+                            modalContent.removeChild(successOverlay);
+                        }
+                    }, 500);
+                }, 1500);
+            }
+
+            function compressImage(dataUrl, quality) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        // Resize based on quality setting while preserving aspect ratio
+                        if (quality === 'low') {
+                            const maxDimension = 800;
+                            if (width > height && width > maxDimension) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else if (height > maxDimension) {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        } else if (quality === 'medium') {
+                            const maxDimension = 1200;
+                            if (width > height && width > maxDimension) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else if (height > maxDimension) {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        } else {
+                            // For high quality, we'll just compress slightly if it's very large
+                            const maxDimension = 2000;
+                            if (width > height && width > maxDimension) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else if (height > maxDimension) {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Get compression quality value
+                        let compressionQuality = 0.7; // Default medium
+                        if (quality === 'low') {
+                            compressionQuality = 0.5;
+                        } else if (quality === 'high') {
+                            compressionQuality = 0.9;
+                        }
+                        
+                        // Get compressed data URL
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
+                        resolve(compressedDataUrl);
+                    };
+                    
+                    img.onerror = function() {
+                        reject(new Error('Failed to load image for compression'));
+                    };
+                    
+                    img.src = dataUrl;
+                });
+            }
+
+            async function addImageToDb(imageData) {
+                return new Promise((resolve, reject) => {
+                    if (!db) {
+                        reject(new Error('Database not initialized'));
+                        return;
+                    }
+                    
+                    try {
+                        const transaction = db.transaction([STORE_NAME], 'readwrite');
+                        const store = transaction.objectStore(STORE_NAME);
+                        const request = store.add(imageData);
+                        
+                        request.onsuccess = (event) => {
+                            resolve(event.target.result); // Returns the ID
+                        };
+                        
+                        request.onerror = (event) => {
+                            console.error('IndexedDB error:', event.target.error);
+                            reject(event.target.error);
+                        };
+                    } catch (error) {
+                        console.error('Error in addImageToDb:', error);
+                        reject(error);
+                    }
+                });
+            }
+
+            async function removeImage(index) {
+                if (index < 0 || index >= userImages.length) return;
+                
+                // Get the image ID
+                const imageId = userImages[index].id;
+                
+                // Get the DOM element
+                const item = document.querySelector(`.masonry-item[data-index="${index}"]`);
+                if (!item) return;
+                
+                // Add removal animation with particles
+                item.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+                item.style.transform = 'scale(0.8)';
+                item.style.opacity = '0';
+                
+                // Add particle explosion effect
+                const rect = item.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                // Create a container for the particles
+                const particleContainer = document.createElement('div');
+                particleContainer.style.position = 'fixed';
+                particleContainer.style.left = '0';
+                particleContainer.style.top = '0';
+                particleContainer.style.width = '100%';
+                particleContainer.style.height = '100%';
+                particleContainer.style.pointerEvents = 'none';
+                particleContainer.style.zIndex = '100';
+                document.body.appendChild(particleContainer);
+                
+                // Add particles
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'absolute rounded-full';
+                    particle.style.width = `${Math.random() * 6 + 2}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.background = `rgb(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255)`;
+                    particle.style.left = `${centerX}px`;
+                    particle.style.top = `${centerY}px`;
+                    
+                    // Randomize the particle animation
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 50 + Math.random() * 100;
+                    const duration = 0.5 + Math.random() * 1;
+                    
+                    particle.animate([
+                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                        { 
+                            transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(0)`, 
+                            opacity: 0 
+                        }
+                    ], {
+                        duration: duration * 1000,
+                        easing: 'cubic-bezier(0.1, 0.7, 1.0, 0.1)'
+                    });
+                    
+                    particleContainer.appendChild(particle);
+                    
+                    // Remove particle after animation completes
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, duration * 1000);
+                }
+                
+                // Remove particle container after all animations
+                setTimeout(() => {
+                    if (document.body.contains(particleContainer)) {
+                        document.body.removeChild(particleContainer);
+                    }
+                }, 2000);
+                
+                setTimeout(async () => {
+                    try {
+                        // Remove from database
+                        await deleteImageFromDb(imageId);
+                        
+                        // Reload images
+                        await loadUserImages();
+                        
+                        // Show toast
+                        showToast('Image removed successfully', 'info');
+                    } catch (error) {
+                        console.error('Error removing image:', error);
+                        showToast('Error removing image', 'error');
+                    }
+                }, 500);
+            }
+
+            async function deleteImageFromDb(id) {
+                return new Promise((resolve, reject) => {
+                    if (!db) {
+                        reject(new Error('Database not initialized'));
+                        return;
+                    }
+                    
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
+                    const request = store.delete(id);
+                    
+                    request.onsuccess = () => {
+                        resolve();
+                    };
+                    
+                    request.onerror = (event) => {
+                        console.error('Error deleting image:', event.target.error);
+                        reject(event.target.error);
+                    };
+                });
+            }
+
+            function showToast(message, type = 'success') {
+                toastMessage.textContent = message;
+                
+                // Set icon based on type
+                if (type === 'success') {
+                    toastIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    toastIcon.className = 'text-green-400 text-xl';
+                } else if (type === 'error') {
+                    toastIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                    toastIcon.className = 'text-red-400 text-xl';
+                } else if (type === 'info') {
+                    toastIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                    toastIcon.className = 'text-accent-blue text-xl';
+                }
+                
+                // Show toast with animation
+                toast.classList.remove('translate-y-12', 'opacity-0');
+                
+                // Add bounce effect
+                toast.classList.add('animate-bounce-in');
+                
+                // Remove animation class after it completes
+                setTimeout(() => {
+                    toast.classList.remove('animate-bounce-in');
+                }, 500);
+                
+                // Auto-hide after 5 seconds
+                const toastTimeout = setTimeout(() => {
+                    toast.classList.add('translate-y-12', 'opacity-0');
+                }, 5000);
+                
+                // Clear timeout if toast is closed manually
+                closeToast.onclick = () => {
+                    clearTimeout(toastTimeout);
+                    toast.classList.add('translate-y-12', 'opacity-0');
+                };
+            }
+
+            function checkEmptyState() {
+                if (userImages.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    galleryGrid.classList.add('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                    galleryGrid.classList.remove('hidden');
+                }
+            }
+
+            function animateGalleryItems() {
+                const galleryItems = document.querySelectorAll('.stagger-item');
+                
+                galleryItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('animate-scale-in');
+                    }, 50 * index);
+                });
+            }
+
+            function showLoadingState() {
+                loadingState.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                galleryGrid.classList.add('hidden');
+            }
+
+            function hideLoadingState() {
+                loadingState.classList.add('hidden');
+            }
+
+            function initResizeObserver() {
+                if (resizeObserver) {
+                    resizeObserver.disconnect();
+                }
+                
+                resizeObserver = new ResizeObserver(entries => {
+                    updateMasonryLayout();
+                });
+                
+                // Observe the gallery container
+                resizeObserver.observe(galleryGrid);
+            }
+
+            function updateMasonryLayout() {
+                // This function will be called when images load or when the window resizes
+                // Force a reflow to recalculate the grid layout
+                galleryGrid.style.display = 'none';
+                void galleryGrid.offsetHeight; // Force reflow
+                galleryGrid.style.display = '';
+            }
+
+            function handleTiltEffect(e) {
+                const cards = document.querySelectorAll('.tilt-card');
+                
+                cards.forEach(card => {
+                    // Get the card's position relative to the viewport
+                    const rect = card.getBoundingClientRect();
+                    
+                    // Calculate the center of the card
+                    const cardCenterX = rect.left + rect.width / 2;
+                    const cardCenterY = rect.top + rect.height / 2;
+                    
+                    // Calculate the distance from the mouse to the center of the card
+                    const distanceX = e.clientX - cardCenterX;
+                    const distanceY = e.clientY - cardCenterY;
+                    
+                    // Limit the tilt effect to cards near the mouse
+                    const proximityThreshold = 300; // pixels
+                    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                    
+                    if (distance < proximityThreshold) {
+                        // Calculate the tilt amount based on the distance from the mouse to the card center
+                        // The closer the mouse, the stronger the effect
+                        const strength = 1 - distance / proximityThreshold;
+                        const tiltX = distanceY / 25 * strength;
+                        const tiltY = -distanceX / 25 * strength;
+                        
+                        // Apply the tilt effect
+                        card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
+                    } else {
+                        // Reset the transform for cards that are far from the mouse
+                        card.style.transform = '';
+                    }
+                });
+            }
+
+            // Listen for window resize events to update the masonry layout
+            window.addEventListener('resize', debounce(updateMasonryLayout, 200));
+
+            // Debounce function to limit the rate at which a function can fire
+            function debounce(func, wait) {
+                let timeout;
+                return function() {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        func.apply(context, args);
+                    }, wait);
+                };
+            }
+        });
+    </script>
+</body>
+</html>
